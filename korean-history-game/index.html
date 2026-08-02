@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>한국사 타임 어드벤처 : 선사시대 보호막 대작전</title>
+<style>
+  :root{
+    --bg1:#161029; --bg2:#241a4a; --gold:#ffd166; --meat:#ff6b6b;
+    --shield:#4fc3f7; --card:#20153f; --card2:#2c1e5c; --text:#f5f1ff; --sub:#c3b8e6;
+    --accent:#7d5fff; --good:#2ecc71; --bad:#e74c3c;
+    --gold1:#D9B76A; --gold2:#B88A3D; --ivory:#F3EADB; --sub2:#AFA9BD; --locked-c:#716D7D;
+    --exp:#45D5F4; --accent2:#4B8DFF; --accent3:#8C6CFF;
+    --btnred1:#A13A3B; --btnred2:#8A2531; --btnred3:#651D28;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; font-family:'Malgun Gothic','Segoe UI',sans-serif;
+    background: radial-gradient(circle at 20% 0%, #3a2373 0%, var(--bg1) 45%, #0a0618 100%);
+    color:var(--text); display:flex; justify-content:center; padding:16px 16px 90px;
+  }
+  #app{ width:100%; max-width:640px; }
+  .card{
+    background:linear-gradient(160deg,var(--card),var(--card2));
+    border:2px solid #4a3690; border-radius:18px; padding:20px;
+    box-shadow:0 8px 24px rgba(0,0,0,.4); margin-bottom:14px;
+  }
+  h1{ text-align:center; font-size:23px; margin:6px 0 2px; text-shadow:0 2px 6px #000;}
+  h2{ margin:0 0 8px; font-size:18px; color:var(--gold);}
+  p{ line-height:1.6; color:var(--sub); }
+  .sub-title{ text-align:center; color:var(--sub); margin-bottom:16px; font-size:14px;}
+  input[type=text]{
+    width:100%; padding:12px 14px; border-radius:12px; border:2px solid #4a3690;
+    background:#150a2e; color:var(--text); font-size:16px; margin:8px 0 14px;
+  }
+  button{
+    font-family:inherit; cursor:pointer; border:none; border-radius:12px;
+    padding:12px 16px; font-size:15px; font-weight:700; transition:transform .08s, opacity .15s;
+  }
+  button:active{ transform:scale(.96); }
+  button:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn-main{ background:linear-gradient(135deg,#7d5fff,#5433c7); color:#fff; width:100%; }
+  .btn-gold{ background:linear-gradient(135deg,#ffd166,#f7a325); color:#3a2000; width:100%; }
+  .btn-ghost{ background:#241a49; color:var(--sub); border:2px solid #4a3690; width:100%; }
+  .btn-row{ display:flex; gap:10px; margin-top:8px; }
+  .btn-row button{ flex:1; }
+  .choice-btn{
+    display:block; width:100%; text-align:left; background:#1c1240; color:var(--text);
+    border:2px solid #453188; border-radius:12px; padding:12px 14px; margin-bottom:10px; font-size:15px;
+  }
+  .choice-btn.picked{ border-color:var(--accent); background:#2a1c5c; box-shadow:0 0 0 2px rgba(125,95,255,.4); }
+  .choice-correct{ background:#183a24 !important; border-color:var(--good) !important; }
+  .choice-wrong{ background:#3a1818 !important; border-color:var(--bad) !important; }
+  .status-bar{
+    display:flex; align-items:center; gap:10px; background:#150a2e; border-radius:14px;
+    padding:10px 12px; margin-bottom:14px; border:1px solid #362463; flex-wrap:wrap;
+  }
+  .avatar-badge{ width:44px; height:52px; flex-shrink:0; }
+  .status-mini{ font-size:12px; color:var(--sub); }
+  .bar-track{ background:#241547; border-radius:8px; height:9px; overflow:hidden; width:100%; }
+  .bar-fill{ height:100%; border-radius:8px; transition:width .3s; }
+  .status-col{ flex:1; min-width:112px; }
+  .pill{ background:#33206b; border-radius:999px; padding:4px 10px; font-size:11px; color:var(--gold); font-weight:700; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .avatar-pick{
+    border:2px solid #322459; border-radius:18px; padding:10px 6px 12px; text-align:center; cursor:pointer;
+    background:transparent; transition:transform .12s, border-color .12s;
+  }
+  .avatar-pick:active{ transform:scale(.97); }
+  .avatar-pick.selected{ border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,209,102,.25); }
+  .avatar-pick .avatar-frame{
+    width:132px; height:160px; margin:0 auto;
+    background:radial-gradient(ellipse at 50% 62%, rgba(125,95,255,.22), rgba(125,95,255,0) 72%);
+  }
+  .avatar-pick .avatar-frame img{ filter:drop-shadow(0 10px 14px rgba(0,0,0,.5)); }
+  .avatar-pick .nm{ font-size:13px; margin-top:6px; }
+  .stage-row{
+    display:flex; align-items:center; gap:12px; background:linear-gradient(160deg,#17142B,#201A38);
+    border:1px solid var(--gold2); border-radius:10px; padding:12px 14px; margin-bottom:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.35);
+  }
+  .stage-row.locked{ opacity:.55; filter:grayscale(.6); }
+  .stage-row.locked .info b, .stage-row.locked .info small{ color:var(--locked-c) !important; }
+  .stage-row.current{
+    border-color:var(--accent2); background:linear-gradient(135deg, rgba(109,92,255,.22), rgba(75,141,255,.16));
+    box-shadow:0 0 0 1px var(--accent3) inset, 0 0 18px rgba(75,141,255,.45);
+  }
+  .stage-row .ghost-icon{ width:40px; height:40px; flex-shrink:0; }
+  .stage-row .info{ flex:1; }
+  .stage-icon-tile{
+    width:56px; height:56px; border-radius:10px; border:1px solid var(--gold2); flex-shrink:0; overflow:hidden;
+    background:radial-gradient(circle at 50% 35%, #201A38, #101024); box-shadow:inset 0 0 8px rgba(0,0,0,.5);
+  }
+  .stage-arrow{ font-size:22px; color:var(--gold1); font-weight:900; }
+
+  .map-ornate{
+    background:radial-gradient(circle at 50% 0%, #15132B 0%, #101024 55%, #08081A 100%);
+    border:2px solid var(--gold1); outline:1px solid var(--gold2); outline-offset:-6px;
+    box-shadow:0 0 26px rgba(109,92,255,.14), 0 10px 30px rgba(0,0,0,.6);
+  }
+  .map-title{
+    text-align:center; font-size:22px; font-weight:800; margin:2px 0 14px; letter-spacing:1px;
+    background:linear-gradient(135deg,var(--gold1),var(--gold2)); -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 18px rgba(217,183,106,.35);
+  }
+  .map-profile-row{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .map-profile-row b{ color:var(--ivory); }
+  .map-avatar-ring{
+    width:64px; height:64px; border-radius:50%; border:3px solid var(--gold1); flex-shrink:0; overflow:hidden;
+    background:radial-gradient(circle, #201A38, #101024); box-shadow:0 0 12px rgba(217,183,106,.55), 0 0 0 3px rgba(140,108,255,.25);
+  }
+  .map-quote{
+    background:linear-gradient(160deg,#17142B,#201A38); border:1px solid var(--gold2);
+    box-shadow:0 0 0 1px rgba(140,108,255,.2) inset, 0 4px 14px rgba(0,0,0,.4); border-radius:14px;
+    padding:12px 14px; margin-bottom:14px; display:flex; gap:10px; align-items:center;
+  }
+  .map-quote p{ color:var(--ivory) !important; }
+  .map-divider{
+    display:flex; align-items:center; gap:10px; color:var(--gold1); font-weight:700; font-size:13px; margin:6px 0 10px;
+  }
+  .map-divider::before, .map-divider::after{ content:''; flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--gold2), transparent); }
+  .badge-clear{ background:var(--good); color:#06280f; border-radius:999px; padding:3px 10px; font-size:12px; font-weight:700; }
+  .btn-royal{
+    background:linear-gradient(160deg,#201A38,#17142B); color:var(--ivory); border:1px solid var(--gold2);
+    border-radius:8px;
+  }
+  .btn-royal:active{ box-shadow:0 0 12px rgba(140,108,255,.5); }
+  .btn-royal-red{
+    background:linear-gradient(135deg, var(--btnred1), var(--btnred3)); border:1px solid var(--gold1); color:var(--ivory);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1), 0 4px 14px rgba(161,58,59,.4); border-radius:8px;
+  }
+  .ach-card{ display:flex; align-items:center; gap:12px; background:linear-gradient(160deg,#17142B,#201A38); border:1px solid var(--gold2); border-radius:12px; padding:12px; margin-bottom:10px; }
+  .ach-card.done{ border-color:var(--gold1); box-shadow:0 0 14px rgba(217,183,106,.3); }
+  .ach-icon{ font-size:30px; width:44px; text-align:center; flex-shrink:0; }
+  .ach-info{ flex:1; min-width:0; }
+  .ach-name{ font-weight:800; color:var(--ivory); }
+  .ach-action{ flex-shrink:0; text-align:center; }
+  .worksheet-paper{
+    background:#f7ecd3; border:3px solid #b8873a; border-radius:12px; padding:22px 18px; color:#5a4222;
+    box-shadow:0 8px 20px rgba(0,0,0,.3); margin-bottom:14px;
+  }
+  .worksheet-title{ text-align:center; font-size:22px; font-weight:800; color:#8a3b2f; margin-bottom:8px; }
+  .worksheet-subject{ text-align:center; margin-bottom:14px; }
+  .worksheet-subject span{ font-size:12px; color:#7a5a2f; background:#efe0bd; border:1px solid #cba765; border-radius:999px; padding:4px 14px; }
+  .worksheet-fields{ display:flex; flex-wrap:wrap; gap:10px 16px; font-size:12px; color:#6a4a22; border-bottom:1px dashed #b8873a; padding-bottom:10px; margin-bottom:14px; }
+  .worksheet-score{ margin-left:auto; font-weight:800; color:#8a3b2f; }
+  .worksheet-instruction{ font-size:13px; color:#6a4a22; margin-bottom:12px; }
+  .worksheet-list{ padding-left:20px; margin:0; }
+  .worksheet-list li{ margin-bottom:16px; font-size:14px; line-height:1.6; }
+  .ws-blank{ margin-top:4px; }
+  .ws-line{ display:inline-block; border-bottom:1px solid #7a5a2f; min-width:140px; }
+  .worksheet-answers{ display:none; margin-top:14px; padding-top:10px; border-top:1px dashed #b8873a; }
+  .worksheet-answers.show{ display:block; }
+  .worksheet-answers ol{ padding-left:20px; }
+  @media print{
+    body *{ visibility:hidden; }
+    .worksheet-paper, .worksheet-paper *{ visibility:visible; }
+    .worksheet-paper{ position:absolute; left:0; top:0; width:100%; box-shadow:none; }
+    .bottom-nav, .toast, .no-print{ display:none !important; }
+  }
+  .toast{
+    position:fixed; top:14px; left:50%; transform:translateX(-50%); background:#2c1c56; border:2px solid var(--gold);
+    color:var(--gold); padding:10px 18px; border-radius:12px; font-weight:700; z-index:80; box-shadow:0 6px 16px rgba(0,0,0,.4);
+  }
+  .shop-item{
+    display:flex; align-items:center; gap:12px; background:#1c1240; border:2px solid #453188; border-radius:14px;
+    padding:12px; margin-bottom:10px;
+  }
+  .shop-item.equipped{ border-color:var(--good); }
+  .shop-item.locked{ opacity:.5; }
+  .shop-item .em{ font-size:28px; width:34px; text-align:center; }
+  .shop-item .info{ flex:1; }
+  .shop-tabs{ display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .shop-tab{ flex:1; min-width:70px; background:#1c1240; border:2px solid #453188; color:var(--sub); }
+  .shop-tab.active{ background:linear-gradient(135deg,#7d5fff,#5433c7); color:#fff; border-color:var(--accent); }
+  .ghost-wrap{ text-align:center; margin:10px 0; }
+  .ghost-battle-em{ width:140px; height:140px; display:inline-block; animation:float 1.3s ease-in-out infinite; }
+  @keyframes float{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-10px);} }
+  .note-item{ background:#1c1240; border:2px solid #453188; border-radius:12px; padding:12px; margin-bottom:10px; }
+  .note-item.cleared{ border-color:var(--good); }
+  small.tag{ color:var(--sub); }
+  .center{ text-align:center; }
+  .mt8{ margin-top:8px; } .mt14{ margin-top:14px; }
+  .sejong-portrait{ width:140px; height:182px; margin:0 auto; }
+  .sejong-portrait.small{ width:58px; height:75px; }
+  .barrier-ring{ animation:pulse 2.2s ease-in-out infinite; pointer-events:none; }
+  @keyframes pulse{ 0%,100%{ opacity:.35; } 50%{ opacity:.75; } }
+  .bottom-nav{
+    position:fixed; bottom:0; left:0; right:0; display:flex; justify-content:center;
+    background:#150a2ee6; border-top:1px solid #362463; backdrop-filter:blur(6px); z-index:40;
+  }
+  .bottom-nav-inner{ width:100%; max-width:640px; display:flex; }
+  .nav-btn{
+    flex:1; min-width:0; background:transparent; border-radius:0; color:var(--sub); padding:8px 2px; font-size:10.5px;
+  }
+  .nav-btn.active{ color:var(--gold); }
+  .nav-btn .ic{ font-size:18px; display:block; }
+  .nav-btn .lbl{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; }
+  @media (min-width:400px){
+    .nav-btn{ font-size:12px; padding:10px 4px; }
+    .nav-btn .ic{ font-size:20px; }
+  }
+  .weapon-tag{ color:var(--gold); font-size:11px; }
+  .login-banner{ border-radius:18px; overflow:hidden; margin-bottom:14px; box-shadow:0 8px 24px rgba(0,0,0,.4); border:2px solid #4a3690; }
+  .login-banner input#nicknameInput::placeholder{ color:#8a7355; font-weight:600; }
+
+  /* ===== 플레이 화면(퀴즈/전투) 라이트 테마 ===== */
+  body.light-mode{ background:#f7f6fb; color:#2b2140; }
+  body.light-mode .card{
+    background:#ffffff; border-color:#e4dcff; box-shadow:0 4px 16px rgba(90,70,160,.1);
+  }
+  body.light-mode h1{ color:#2b2140; text-shadow:none; }
+  body.light-mode h2{ color:#7d5fff; }
+  body.light-mode p{ color:#5b5075; }
+  body.light-mode small.tag{ color:#8478a0; }
+  body.light-mode .status-bar{ background:#ffffff; border-color:#e4dcff; box-shadow:0 2px 10px rgba(90,70,160,.08); }
+  body.light-mode .status-mini{ color:#8478a0; }
+  body.light-mode .bar-track{ background:#ece6fb; }
+  body.light-mode .pill{ background:#f1e9ff; color:#a9790b; }
+  body.light-mode .choice-btn{ background:#f8f6ff; border-color:#e0d6fb; color:#2b2140; }
+  body.light-mode .choice-btn.picked{ background:#ece2ff; border-color:var(--accent); }
+  body.light-mode .choice-correct{ background:#e4f8ea !important; }
+  body.light-mode .choice-wrong{ background:#fbe6e6 !important; }
+  body.light-mode .btn-ghost{ background:#f1edff; color:#5b5075; border-color:#e0d6fb; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+'use strict';
+
+/* =========================================================
+   IMAGE ASSET AGENT — 업로드된 실제 일러스트 파일 사용
+========================================================= */
+function assetSrc(name){ return encodeURI('../image/' + name); }
+
+function sejongImgHtml(){
+  return `
+  <div style="position:relative;width:100%;height:100%;">
+    <div class="barrier-ring" style="position:absolute;inset:-8%;border-radius:50%;border:4px solid #4fc3f7;"></div>
+    <div class="barrier-ring" style="position:absolute;inset:-2%;border-radius:50%;border:2px solid #4fc3f7;animation-delay:.3s;"></div>
+    <img src="${assetSrc('새종대왕.png')}" alt="세종대왕" style="position:relative;width:100%;height:100%;object-fit:contain;border-radius:12px;"/>
+  </div>`;
+}
+
+const GHOST_HUES = [0, 55, 150, 215];
+function ghostImgHtml(stageIdx, opts){
+  opts = opts || {};
+  const hue = GHOST_HUES[stageIdx] || 0;
+  return `<img src="${assetSrc('악령.jpg')}" alt="역사 악령" style="width:100%;height:100%;object-fit:contain;border-radius:10px;filter:hue-rotate(${hue}deg) saturate(1.3)${opts.angry?' contrast(1.15)':''};"/>`;
+}
+
+/* 흰 배경 일러스트를 캔버스로 열어 흰색을 투명하게 바꿔주는 유틸(다른 캐릭터들과 톤을 맞추기 위함) */
+const BG_REMOVED_CACHE = {};
+function loadTransparentBg(src, onReady){
+  if(BG_REMOVED_CACHE[src]){ onReady(BG_REMOVED_CACHE[src]); return; }
+  const img = new Image();
+  img.onload = () => {
+    try{
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = data.data;
+      for(let i=0; i<px.length; i+=4){
+        const d = 255 - Math.min(px[i], px[i+1], px[i+2]);
+        if(d < 14) px[i+3] = 0;
+        else if(d < 46) px[i+3] = Math.round(px[i+3] * (d-14) / 32);
+      }
+      ctx.putImageData(data, 0, 0);
+      const url = canvas.toDataURL('image/png');
+      BG_REMOVED_CACHE[src] = url;
+      onReady(url);
+    }catch(e){ console.error('[bg-remove] 실패', e); }
+  };
+  img.src = src;
+}
+
+function avatarImgHtml(avatar){
+  const src = assetSrc(avatar.file);
+  if(avatar.whiteBg){
+    if(BG_REMOVED_CACHE[src]){
+      return `<img src="${BG_REMOVED_CACHE[src]}" alt="${avatar.name}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;"/>`;
+    }
+    const uid = 'av' + Math.random().toString(36).slice(2);
+    loadTransparentBg(src, url=>{ document.querySelectorAll(`img[data-avid="${uid}"]`).forEach(el=>{ el.src = url; }); });
+    return `<img data-avid="${uid}" src="${src}" alt="${avatar.name}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;"/>`;
+  }
+  return `<img src="${src}" alt="${avatar.name}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;"/>`;
+}
+
+/* =========================================================
+   DATA
+========================================================= */
+const AVATARS = [
+  { id:'m_sword',  gender:'m', name:'남자 검사', file:'transparent/norm/남자 검사.png',   line:'"이 검으로 어떤 문제든 베어버리겠어요!"' },
+  { id:'m_mage',   gender:'m', name:'남자 마법사', file:'transparent/norm/남자 마법사.png', line:'"마법의 힘으로 역사의 비밀을 풀어볼게요!"' },
+  { id:'m_archer', gender:'m', name:'남자 궁수', file:'transparent/norm/남자 궁수.png',   line:'"화살처럼 정확하게 정답을 맞힐게요!"' },
+  { id:'m_rogue',  gender:'m', name:'남자 도적', file:'transparent/norm/남자 도적.png',   line:'"재빠르게 정답을 찾아낼게요!"' },
+  { id:'m_pirate', gender:'m', name:'남자 해적', file:'transparent/norm/남자 해적.png',   line:'"보물을 찾듯 답을 찾아 나서죠!"' },
+  { id:'f_sword',  gender:'f', name:'여자 검사', file:'여자검사.png', whiteBg:true, line:'"이 검으로 어떤 문제든 베어버리겠어요!"' },
+  { id:'f_mage',   gender:'f', name:'여자 마법사', file:'transparent/norm/여자 마법사.png', line:'"마법의 힘으로 역사의 비밀을 풀어볼게요!"' },
+  { id:'f_archer', gender:'f', name:'여자 궁수', file:'transparent/norm/여자 궁수.png',   line:'"화살처럼 정확하게 정답을 맞힐게요!"' },
+  { id:'f_rogue',  gender:'f', name:'여자 도적', file:'transparent/norm/여자 도적.png',   line:'"재빠르게 정답을 찾아낼게요!"' },
+  { id:'f_pirate', gender:'f', name:'여자 해적', file:'transparent/norm/여자 해적.png',   line:'"보물을 찾듯 답을 찾아 나서죠!"' },
+];
+
+const WEAPONS = [
+  { id:'stoneaxe', name:'돌도끼', emoji:'🪓', price:100, dmg:1 },
+  { id:'spear',    name:'나무창', emoji:'🔱', price:180, dmg:2 },
+  { id:'bronzesword', name:'청동검', emoji:'⚔️', price:280, dmg:3 },
+  { id:'ironmace', name:'철퇴',   emoji:'🔨', price:420, dmg:5 },
+];
+const BARRIER_UPGRADES = [
+  { id:'b_low',    name:'강화석 (하급)', emoji:'🔹', price:150 },
+  { id:'b_mid',    name:'강화석 (중급)', emoji:'🔷', price:300 },
+  { id:'b_high',   name:'강화석 (상급)', emoji:'💎', price:600 },
+  { id:'b_weapon', name:'무기 연마석', emoji:'⚙️', price:200 },
+  { id:'b_armor',  name:'방어구 연마석', emoji:'🛡️', price:200 },
+  { id:'b_acc',    name:'장신구 연마석', emoji:'💍', price:200 },
+  { id:'b_growth', name:'성장 패키지', emoji:'🎁', price:500 },
+  { id:'b_perfect',name:'완벽 강화 패키지', emoji:'📦', price:800 },
+];
+const COSTUMES = [
+  { id:'royal_armor',  name:'왕실 갑옷', emoji:'👘', price:600 },
+  { id:'royal_hanbok',  name:'왕실 한복', emoji:'👘', price:500 },
+  { id:'trad_hat',      name:'전통 관모', emoji:'👘', price:200 },
+  { id:'scholar_robe',  name:'문관 의상', emoji:'👘', price:350 },
+  { id:'general_armor', name:'장군 갑옷', emoji:'👘', price:600 },
+  { id:'sage_outfit',   name:'학자 복장', emoji:'👘', price:400 },
+  { id:'travel_hanbok', name:'여행 한복', emoji:'👘', price:350 },
+  { id:'warrior_garb',  name:'무사 의복', emoji:'👘', price:450 },
+];
+const PETS = [
+  { id:'tiger_cub',    name:'아기 호랑이', emoji:'🐯', price:300 },
+  { id:'raven_spirit', name:'까마귀 신수', emoji:'🐦', price:200 },
+  { id:'turtle',       name:'거북이', emoji:'🐢', price:250 },
+  { id:'baby_dragon',  name:'아기 용', emoji:'🐲', price:600 },
+  { id:'shaggy_dog',   name:'삽살개', emoji:'🐕', price:350 },
+  { id:'falcon',       name:'매', emoji:'🦅', price:400 },
+  { id:'white_tiger',  name:'백호', emoji:'🐅', price:800 },
+  { id:'desert_fox',   name:'사막여우', emoji:'🦊', price:500 },
+];
+const CONSUMABLES = [
+  { id:'c_hp',        name:'체력 회복 고기', emoji:'🍖', price:50,  restore:25 },
+  { id:'c_ap',        name:'행동력 회복 고기', emoji:'🍖', price:60,  restore:30 },
+  { id:'c_focus',     name:'집중력 차', emoji:'🍵', price:80,  restore:35 },
+  { id:'c_revive',    name:'부활 부적', emoji:'📜', price:100, restore:100 },
+  { id:'c_scroll',    name:'경험치 두루마리', emoji:'📜', price:120, restore:45 },
+  { id:'c_rice',      name:'행운의 떡', emoji:'🍡', price:100, restore:40 },
+  { id:'c_hp2',       name:'상급 회복 고기', emoji:'🍖', price:150, restore:100 },
+  { id:'c_potion',    name:'응급 치료약', emoji:'🧪', price:90,  restore:38 },
+];
+
+const RANKS = [
+  { min:0,    title:'견습 탐험가' },
+  { min:80,   title:'부족의 전사' },
+  { min:200,  title:'씨족장' },
+  { min:400,  title:'군장' },
+  { min:650,  title:'성주' },
+  { min:1000, title:'대왕의 특사' },
+  { min:1500, title:'역사의 수호자' },
+];
+
+const STAGES = [
+  {
+    id:'paleolithic', name:'구석기 시대', tag:'무리 사회', ghostName:'동굴의 악령', ghostColor:'#7f8c8d',
+    intro:'시간의 문이 열리고, 여러분은 아득히 먼 구석기 시대로 떨어졌습니다! 사람들은 먹을거리를 찾아 이동하며 동굴이나 막집에서 살고 있어요. 그런데 근처 동굴 속에서 수상한 기운이 느껴집니다... "동굴의 악령"이 이 시대의 역사를 흐트러뜨리려 하고 있어요!',
+    questions:[
+      { q:'구석기 시대 사람들은 먹을거리를 찾아 옮겨 다니며 주로 어디에서 살았을까요?', choices:['궁궐','동굴이나 막집','아파트','초가집'], answer:1,
+        explain:'구석기 시대에는 농사를 짓지 않아 먹을 것을 찾아 옮겨 다녔어요. 그래서 동굴이나 나뭇가지로 만든 막집에서 살았답니다.' },
+      { q:'구석기 시대의 대표적인 도구로, 돌을 깨뜨려 만든 도구를 무엇이라고 할까요?', choices:['빗살무늬 토기','뗀석기','반달돌칼','철제 농기구'], answer:1,
+        explain:'뗀석기는 돌을 깨뜨려 날카롭게 만든 도구예요. 대표적으로 주먹도끼가 있어요.' },
+      { q:'다음 중 구석기 시대 유적지가 아닌 곳은 어디일까요?', choices:['연천 전곡리','공주 석장리','서울 암사동','단양 금굴'], answer:2,
+        explain:'서울 암사동은 신석기 시대의 대표 유적지예요. 나머지는 모두 구석기 시대 유적지랍니다.' },
+      { q:'구석기 시대 사람들의 사회 모습으로 알맞은 것은 무엇일까요?', choices:['계급이 뚜렷했다','여러 가족이 무리를 지어 이동했다','왕이 다스렸다','성을 쌓고 정착했다'], answer:1,
+        explain:'구석기 시대는 평등한 무리 사회로, 여러 가족이 함께 무리를 지어 이동 생활을 했어요.' },
+      { q:'구석기 시대 사람들이 옷을 만들 때 주로 사용한 재료는 무엇일까요?', choices:['비단','가죽','무명','삼베'], answer:1,
+        explain:'구석기 시대에는 동물을 사냥해 얻은 가죽으로 옷을 만들어 입었어요.' },
+      { q:'뗀석기 중 사냥과 조리 등 다양한 용도로 사용된 대표 도구는 무엇일까요?', choices:['반달돌칼','주먹도끼','철제 낫','청동검'], answer:1,
+        explain:'주먹도끼는 손에 쥐고 사냥, 가죽 벗기기 등 다양하게 사용한 구석기 시대의 대표 도구예요.' },
+    ]
+  },
+  {
+    id:'neolithic', name:'신석기 시대', tag:'씨족(부족) 사회', ghostName:'토기의 악령', ghostColor:'#8d6e63',
+    intro:'농사가 시작된 신석기 시대에 도착했습니다! 사람들이 이제 한곳에 머물러 움집을 짓고 살기 시작했어요. 그런데 마을의 빗살무늬 토기들이 이상하게 흔들리고 있어요... "토기의 악령"이 정착 생활의 지혜를 훔쳐가려 합니다!',
+    questions:[
+      { q:'신석기 시대에 시작된, 농사를 지어 먹을거리를 얻는 활동을 무엇이라고 할까요?', choices:['수렵','농경','어로','채집'], answer:1,
+        explain:'신석기 시대에는 밭농사인 농경이 시작되면서 사람들의 생활이 크게 바뀌었어요.' },
+      { q:'신석기 시대 사람들이 사용한 그릇으로, 표면에 빗살 같은 무늬가 있는 토기는 무엇일까요?', choices:['민무늬토기','빗살무늬토기','미송리식토기','고려청자'], answer:1,
+        explain:'빗살무늬 토기는 겉면에 빗살처럼 생긴 무늬가 있는 신석기 시대의 대표적인 그릇이에요.' },
+      { q:'신석기 시대 사람들이 실을 뽑을 때 사용한 도구는 무엇일까요?', choices:['베틀','가락바퀴','물레방아','재봉틀'], answer:1,
+        explain:'가락바퀴로 실을 꼬고 뼈바늘로 옷을 지어 입었어요.' },
+      { q:'신석기 시대 사람들이 돌을 갈아서 만든 도구를 무엇이라고 할까요?', choices:['뗀석기','간석기','청동기','철기'], answer:1,
+        explain:'간석기는 돌을 갈아서 더욱 정교하게 만든 도구로, 갈돌·갈판이 대표적이에요.' },
+      { q:'농경이 시작되며 사람들이 이동 생활을 그만두고 짓게 된 집은 무엇일까요?', choices:['막집','움집','기와집','궁궐'], answer:1,
+        explain:'농경으로 정착 생활을 하게 되면서 땅을 파고 지은 움집에서 살게 되었어요.' },
+      { q:'서울 암사동, 부산 동삼동 유적을 통해 알 수 있는 신석기 시대의 특징은 무엇일까요?', choices:['이동 생활을 했다','정착 생활을 하고 어패류도 먹었다','계급이 뚜렷했다','철기를 사용했다'], answer:1,
+        explain:'서울 암사동은 정착 생활을, 부산 동삼동의 조개더미(패총)는 어패류를 먹었음을 보여줘요.' },
+    ]
+  },
+  {
+    id:'bronze', name:'청동기 시대', tag:'군장국가 · 고조선', ghostName:'고인돌의 악령', ghostColor:'#00b894',
+    intro:'청동기 시대에 들어서니 마을 사이에 커다란 고인돌이 세워져 있어요. 벼농사로 곡식이 풍족해지자, 이를 차지하려는 다툼도 늘어났대요. 그 틈을 타 "고인돌의 악령"이 나타나 계급과 전쟁의 혼란을 부추기고 있어요!',
+    questions:[
+      { q:'청동기 시대에 곡식을 수확할 때 사용한 도구는 무엇일까요?', choices:['호미','반달돌칼','쟁기','트랙터'], answer:1,
+        explain:'반달 모양으로 생긴 반달돌칼은 청동기 시대에 곡식을 수확할 때 사용한 도구예요.' },
+      { q:'청동기 시대에 만들어진, 지배자의 힘을 보여주는 커다란 돌무덤은 무엇일까요?', choices:['고인돌','석굴암','불국사','피라미드'], answer:0,
+        explain:'고인돌은 커다란 돌을 이용해 만든 청동기 시대의 무덤으로, 힘 있는 지배자의 무덤으로 여겨져요.' },
+      { q:'벼농사가 확대되어 생산력이 늘고 잉여 생산물이 생기자 사람들 사이에 나타난 것은 무엇일까요?', choices:['평등','계급','공동체 생활','무리 생활'], answer:1,
+        explain:'잉여 생산물을 차지하려는 다툼이 늘면서 계급이 발생하고 전쟁도 잦아졌어요.' },
+      { q:'청동기 문화를 바탕으로 세워진 우리나라 최초의 국가는 무엇일까요?', choices:['삼한','고조선','부여','가야'], answer:1,
+        explain:'청동기 시대의 문화를 바탕으로 성장한 군장국가가 바로 고조선이에요.' },
+      { q:'청동기 시대의 대표적인 청동 무기로, 비파(악기)처럼 생긴 칼은 무엇일까요?', choices:['세형동검','비파형동검','거친무늬거울','고인돌'], answer:1,
+        explain:'비파형동검은 악기 비파처럼 완만한 곡선을 가진 청동기 시대의 대표 청동검이에요.' },
+      { q:'청동기 시대에 사용된 토기로, 특정 지역의 이름이 붙은 민무늬토기는 무엇일까요?', choices:['빗살무늬토기','미송리식 토기','붉은간토기','덧띠토기'], answer:1,
+        explain:'미송리식 토기는 민무늬토기의 한 종류로, 청동기 시대의 대표적인 토기예요.' },
+    ]
+  },
+  {
+    id:'iron', name:'철기 시대', tag:'연맹왕국', ghostName:'명도전의 악령', ghostColor:'#34495e',
+    intro:'마지막으로 철기 시대에 도착했습니다! 단단한 철제 농기구 덕분에 농사가 더욱 발전하고, 중국과의 교류도 활발해졌어요. 그런데 낯선 청동 거울과 동전들 사이에서 "명도전의 악령"이 나타나 마지막 보호막까지 노리고 있어요!',
+    questions:[
+      { q:'철기 시대에 사용된 농기구의 재료는 무엇일까요?', choices:['돌','청동','철','나무'], answer:2,
+        explain:'철기 시대에는 단단한 철로 만든 농기구를 사용해 농업 생산력이 크게 늘었어요.' },
+      { q:'철기 시대의 무덤 양식으로 알맞은 것은 무엇일까요?', choices:['고인돌','덧널무덤, 독무덤','돌무지무덤','굴식돌방무덤'], answer:1,
+        explain:'철기 시대에는 덧널무덤, 독무덤 같은 새로운 무덤 양식이 나타났어요.' },
+      { q:'철기 시대의 대표적인 청동 유물로, 비파형동검보다 날씬하게 발전한 검은 무엇일까요?', choices:['비파형동검','세형동검','거친무늬거울','고인돌'], answer:1,
+        explain:'세형동검은 비파형동검이 더 가늘고 날카롭게 발전한 철기 시대의 청동검이에요.' },
+      { q:'철기 시대에 중국과의 교류를 보여주는 중국 화폐 유물은 무엇일까요?', choices:['상평통보','명도전(오수전)','반량전','엽전'], answer:1,
+        explain:'명도전과 오수전은 중국의 화폐로, 철기 시대에 중국과 활발히 교류했음을 보여줘요.' },
+      { q:'철기 시대에 한자를 사용했음을 보여주는 유물은 무엇일까요?', choices:['토기','붓','돌칼','토우'], answer:1,
+        explain:'붓이 발견된 것으로 보아 철기 시대에 한자를 사용했음을 알 수 있어요.' },
+      { q:'사회가 발전하며 군장국가에서 더 나아가 여러 부족이 연합한 국가 형태를 무엇이라고 할까요?', choices:['무리사회','씨족사회','연맹왕국','제국'], answer:2,
+        explain:'여러 부족이 연합해 이루어진 나라의 형태를 연맹왕국이라고 해요.' },
+    ]
+  },
+];
+
+function ensureDaily(state){
+  const today = new Date().toISOString().slice(0,10);
+  if(!state.daily || state.daily.date !== today){
+    state.daily = { date:today, questionsAnswered:0, wrongReviewed:0, bestStreak:0, currentStreak:0, claimed:{} };
+  }
+  return state.daily;
+}
+const DAILY_MISSIONS = [
+  { id:'q10',    name:'문제 10개 풀기',      icon:'📝', target:10, reward:60, progress:d=>d.questionsAnswered },
+  { id:'wrong3', name:'오답 3개 복습하기',   icon:'📕', target:3,  reward:50, progress:d=>d.wrongReviewed },
+  { id:'streak5',name:'연속 5문제 맞히기',   icon:'🔥', target:5,  reward:80, progress:d=>d.bestStreak },
+];
+
+const ACHIEVEMENTS = [
+  { id:'a_scholar',   name:'역사 박사',     desc:'퀴즈 100문제 정답',        icon:'🎓', target:100,               reward:150, progress:s=>s.correctTotal },
+  { id:'a_perfect',   name:'완벽한 사관',   desc:'모든 시대 클리어',         icon:'📜', target:STAGES.length,     reward:200, progress:s=>s.clearedStages.filter(Boolean).length },
+  { id:'a_hunter',    name:'악령 사냥꾼',   desc:'보스 10회 처치',           icon:'👹', target:10,                reward:300, progress:s=>s.bossKills },
+  { id:'a_collector', name:'고기 수집가',   desc:'누적 고기 1,000 획득',     icon:'🍖', target:1000,              reward:100, progress:s=>s.totalMeatEarned },
+  { id:'a_star',      name:'집현전의 별',   desc:'첫 시도로 50문제 정답',    icon:'⭐', target:50,                reward:120, progress:s=>s.correctFirstTry },
+];
+
+/* =========================================================
+   HARNESS — 자가 교정 및 품질 보증 레이어
+========================================================= */
+const Harness = {
+  validate(state){
+    if(!state) return state;
+    state.meat = Math.max(0, Math.floor(state.meat || 0));
+    state.totalMeatEarned = Math.max(0, Math.floor(state.totalMeatEarned || 0));
+    state.barrierGauge = Math.min(100, Math.max(15, state.barrierGauge == null ? 80 : state.barrierGauge)); // 절대 0(붕괴)으로 두지 않음 → 막힘 방지
+    state.barrierLevel = Math.min(9, Math.max(1, state.barrierLevel || 1));
+    if(!Array.isArray(state.wrongNotes)) state.wrongNotes = [];
+    if(!Array.isArray(state.ownedWeapons)) state.ownedWeapons = [];
+    if(!Array.isArray(state.ownedCostumes)) state.ownedCostumes = [];
+    if(!Array.isArray(state.ownedPets)) state.ownedPets = [];
+    if(!Array.isArray(state.ownedBarrierUpgrades)) state.ownedBarrierUpgrades = [];
+    if(!Array.isArray(state.clearedStages)) state.clearedStages = STAGES.map(()=>false);
+    if(typeof state.storySeen !== 'boolean') state.storySeen = false;
+    state.bossKills = Math.max(0, Math.floor(state.bossKills || 0));
+    if(!Array.isArray(state.claimedAchievements)) state.claimedAchievements = [];
+    ensureDaily(state);
+    return state;
+  },
+  safeRun(fn, fallback){
+    try{ fn(); }
+    catch(err){
+      console.error('[Harness] 오류를 감지하여 복구합니다:', err);
+      try{ toast('⚠️ 문제가 있었지만 하네스가 바로 고쳐드렸어요!'); (fallback||renderMap)(); }
+      catch(e2){ console.error('[Harness] 복구 실패', e2); }
+    }
+  }
+};
+
+/* =========================================================
+   ORCHESTRATOR — 전역 상태 & 화면 제어
+========================================================= */
+const Orchestrator = {
+  state: null,
+  save(){
+    if(!this.state) return;
+    Harness.validate(this.state);
+    localStorage.setItem('khist_save_' + this.state.nickname, JSON.stringify(this.state));
+    const users = JSON.parse(localStorage.getItem('khist_users') || '[]');
+    if(!users.includes(this.state.nickname)){ users.push(this.state.nickname); localStorage.setItem('khist_users', JSON.stringify(users)); }
+  },
+  load(nickname){
+    const raw = localStorage.getItem('khist_save_' + nickname);
+    return raw ? Harness.validate(JSON.parse(raw)) : null;
+  },
+  newState(nickname){
+    return Harness.validate({
+      nickname, avatar:null, meat:0, totalMeatEarned:0,
+      barrierGauge:80, barrierLevel:1,
+      currentStageIndex:0, clearedStages: STAGES.map(()=>false),
+      wrongNotes:[], storySeen:false,
+      ownedWeapons:[], equippedWeapon:null,
+      ownedCostumes:[], equippedCostume:null,
+      ownedPets:[], equippedPet:null,
+      ownedBarrierUpgrades:[],
+      correctFirstTry:0, correctTotal:0,
+      bossKills:0, claimedAchievements:[],
+      daily:null,
+    });
+  },
+  rank(){
+    const meat = this.state.totalMeatEarned;
+    let r = RANKS[0];
+    for(const cand of RANKS){ if(meat >= cand.min) r = cand; }
+    return r.title;
+  },
+  earnMeat(n){
+    this.state.meat += n;
+    this.state.totalMeatEarned += n;
+  },
+  avatarInfo(){ return AVATARS.find(a=>a.id===this.state.avatar) || AVATARS[0]; },
+  avatarImgHtml(){ return avatarImgHtml(this.avatarInfo()); },
+  weaponDmg(){
+    const w = WEAPONS.find(w=>w.id===this.state.equippedWeapon);
+    return w ? w.dmg : 0;
+  },
+  petEmoji(){
+    const p = PETS.find(p=>p.id===this.state.equippedPet);
+    return p ? p.emoji : '';
+  }
+};
+
+/* =========================================================
+   AGENT: 인증 및 캐릭터
+========================================================= */
+const AuthAgent = {
+  login(nicknameRaw){
+    const nickname = (nicknameRaw||'').trim();
+    if(!nickname){ toast('닉네임을 입력해 주세요!'); return; }
+    const existing = Orchestrator.load(nickname);
+    Orchestrator.state = existing || Orchestrator.newState(nickname);
+    Orchestrator.save();
+    if(!Orchestrator.state.avatar) renderCharacterSelect();
+    else if(!Orchestrator.state.storySeen) renderStory();
+    else renderMap();
+  },
+  chooseAvatar(avatarId){
+    Orchestrator.state.avatar = avatarId;
+    Orchestrator.save();
+    if(Orchestrator.state.storySeen) renderMap(); else renderStory();
+  },
+  logout(){ Orchestrator.state = null; charSelectGender = null; renderLogin(); }
+};
+
+/* =========================================================
+   AGENT: 스토리 및 월드
+========================================================= */
+const StoryAgent = {
+  markSeen(){ Orchestrator.state.storySeen = true; Orchestrator.save(); renderMap(); },
+  stageIntro(idx){ Orchestrator.state.currentStageIndex = idx; Orchestrator.save(); renderStageIntro(idx); },
+};
+
+/* =========================================================
+   AGENT: 퀴즈 및 전투
+========================================================= */
+let quizSession = null; // {stageIdx, queue:[qIdx...], selected, showExplain, wasWrongThisQ, lastReward, lastCorrect}
+const QuizAgent = {
+  start(stageIdx){
+    const order = STAGES[stageIdx].questions.map((_,i)=>i);
+    for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+    quizSession = { stageIdx, queue: order, selected:null, showExplain:false, wasWrongThisQ:false };
+    renderQuiz();
+  },
+  pick(choiceIdx){
+    if(quizSession.showExplain) return;
+    quizSession.selected = choiceIdx;
+    renderQuiz();
+  },
+  confirm(){
+    if(quizSession.selected == null || quizSession.showExplain) return;
+    const stage = STAGES[quizSession.stageIdx];
+    const qIdx = quizSession.queue[0];
+    const q = stage.questions[qIdx];
+    const key = stage.id + '-' + qIdx;
+    const correct = quizSession.selected === q.answer;
+    quizSession.showExplain = true;
+    quizSession.lastQIdx = qIdx;
+    quizSession.lastCorrect = correct;
+
+    let note = Orchestrator.state.wrongNotes.find(n=>n.key===key);
+    const wasWrongBefore = !!note;
+    const daily = ensureDaily(Orchestrator.state);
+    daily.questionsAnswered += 1;
+    if(correct){
+      const reward = quizSession.wasWrongThisQ ? 8 : 15;
+      Orchestrator.earnMeat(reward);
+      Orchestrator.state.correctTotal += 1;
+      if(!quizSession.wasWrongThisQ) Orchestrator.state.correctFirstTry += 1;
+      Orchestrator.state.barrierGauge = Math.min(100, Orchestrator.state.barrierGauge + 4);
+      if(note) note.cleared = true;
+      if(wasWrongBefore) daily.wrongReviewed += 1;
+      daily.currentStreak += 1;
+      daily.bestStreak = Math.max(daily.bestStreak, daily.currentStreak);
+      quizSession.lastReward = reward;
+      quizSession.queue.shift();
+    } else {
+      const dmg = Math.max(2, 8 - Orchestrator.state.barrierLevel);
+      Orchestrator.state.barrierGauge = Math.max(15, Orchestrator.state.barrierGauge - dmg);
+      if(!note){ note = { key, era: stage.name, question:q.q, answerText:q.choices[q.answer], explain:q.explain, missCount:0, cleared:false }; Orchestrator.state.wrongNotes.push(note); }
+      note.missCount += 1; note.cleared = false;
+      daily.currentStreak = 0;
+      quizSession.wasWrongThisQ = true;
+    }
+    Orchestrator.save();
+    renderQuiz();
+  },
+  next(){
+    if(!quizSession) return;
+    if(quizSession.queue.length === 0){ renderStageClearTransition(quizSession.stageIdx); return; }
+    quizSession.selected = null; quizSession.showExplain = false; quizSession.wasWrongThisQ = false;
+    renderQuiz();
+  }
+};
+
+/* =========================================================
+   AGENT: 훈련장 (시간제한 없는 복습 모드)
+========================================================= */
+let trainSession = null; // {items:[{stageIdx,qIdx}], idx, selected, showExplain, correctCount, title}
+const TrainAgent = {
+  startStage(stageIdx){
+    const items = STAGES[stageIdx].questions.map((_,i)=>({stageIdx, qIdx:i}));
+    TrainAgent._begin(items, STAGES[stageIdx].name + ' 복습');
+  },
+  startAll(){
+    const items = [];
+    STAGES.forEach((stage, si)=> stage.questions.forEach((_, qi)=> items.push({stageIdx:si, qIdx:qi})));
+    TrainAgent._begin(items, '전체 랜덤 복습');
+  },
+  startWrongNotes(){
+    const notes = Orchestrator.state.wrongNotes.filter(n=>!n.cleared);
+    if(notes.length===0){ toast('복습할 오답이 없어요! 완벽해요 👏'); renderTrainHome(); return; }
+    const items = notes.map(n=>{
+      const sepIdx = n.key.lastIndexOf('-');
+      const stageId = n.key.slice(0, sepIdx);
+      const qIdx = Number(n.key.slice(sepIdx+1));
+      return { stageIdx: STAGES.findIndex(s=>s.id===stageId), qIdx };
+    }).filter(it=>it.stageIdx>=0);
+    TrainAgent._begin(items, '오답노트 복습');
+  },
+  _begin(items, title){
+    for(let i=items.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [items[i],items[j]]=[items[j],items[i]]; }
+    trainSession = { items, idx:0, selected:null, showExplain:false, correctCount:0, title };
+    renderTrain();
+  },
+  pick(choiceIdx){
+    if(trainSession.showExplain) return;
+    trainSession.selected = choiceIdx;
+    renderTrain();
+  },
+  confirm(){
+    if(trainSession.selected == null || trainSession.showExplain) return;
+    const cur = trainSession.items[trainSession.idx];
+    const q = STAGES[cur.stageIdx].questions[cur.qIdx];
+    trainSession.showExplain = true;
+    trainSession.lastCorrect = trainSession.selected === q.answer;
+    if(trainSession.lastCorrect) trainSession.correctCount += 1;
+    renderTrain();
+  },
+  next(){
+    trainSession.idx += 1;
+    trainSession.selected = null; trainSession.showExplain = false;
+    if(trainSession.idx >= trainSession.items.length){ renderTrainResult(); return; }
+    renderTrain();
+  }
+};
+
+/* =========================================================
+   AGENT: 경제 및 상점
+========================================================= */
+const EconomyAgent = {
+  buyWeapon(id){
+    const item = WEAPONS.find(i=>i.id===id); if(!item) return;
+    if(Orchestrator.state.ownedWeapons.includes(id)){ toast('이미 가지고 있어요!'); return; }
+    if(Orchestrator.state.meat < item.price){ toast('고기가 부족해요! 🍖'); return; }
+    Orchestrator.state.meat -= item.price;
+    Orchestrator.state.ownedWeapons.push(id);
+    Orchestrator.state.equippedWeapon = id;
+    Orchestrator.save(); toast(item.emoji+' '+item.name+' 구매 완료!'); renderShop();
+  },
+  equipWeapon(id){ Orchestrator.state.equippedWeapon = (Orchestrator.state.equippedWeapon===id? null : id); Orchestrator.save(); renderShop(); },
+  buyBarrier(id){
+    const idx = BARRIER_UPGRADES.findIndex(i=>i.id===id);
+    const item = BARRIER_UPGRADES[idx]; if(!item) return;
+    if(Orchestrator.state.ownedBarrierUpgrades.includes(id)){ return; }
+    if(idx>0 && !Orchestrator.state.ownedBarrierUpgrades.includes(BARRIER_UPGRADES[idx-1].id)){ toast('이전 단계를 먼저 강화해야 해요!'); return; }
+    if(Orchestrator.state.meat < item.price){ toast('고기가 부족해요! 🍖'); return; }
+    Orchestrator.state.meat -= item.price;
+    Orchestrator.state.ownedBarrierUpgrades.push(id);
+    Orchestrator.state.barrierLevel = Orchestrator.state.ownedBarrierUpgrades.length + 1;
+    Orchestrator.state.barrierGauge = 100;
+    Orchestrator.save(); toast('🛡️ 보호막이 강화되었습니다!'); renderShop();
+  },
+  buyCostume(id){
+    const item = COSTUMES.find(i=>i.id===id); if(!item) return;
+    if(Orchestrator.state.ownedCostumes.includes(id)){ toast('이미 가지고 있어요!'); return; }
+    if(Orchestrator.state.meat < item.price){ toast('고기가 부족해요! 🍖'); return; }
+    Orchestrator.state.meat -= item.price;
+    Orchestrator.state.ownedCostumes.push(id);
+    Orchestrator.state.equippedCostume = id;
+    Orchestrator.save(); toast(item.emoji+' '+item.name+' 구매 완료!'); renderShop();
+  },
+  equipCostume(id){ Orchestrator.state.equippedCostume = (Orchestrator.state.equippedCostume===id? null : id); Orchestrator.save(); renderShop(); },
+  buyPet(id){
+    const item = PETS.find(i=>i.id===id); if(!item) return;
+    if(Orchestrator.state.ownedPets.includes(id)){ toast('이미 가지고 있어요!'); return; }
+    if(Orchestrator.state.meat < item.price){ toast('고기가 부족해요! 🍖'); return; }
+    Orchestrator.state.meat -= item.price;
+    Orchestrator.state.ownedPets.push(id);
+    Orchestrator.state.equippedPet = id;
+    Orchestrator.save(); toast(item.emoji+' '+item.name+' 합류!'); renderShop();
+  },
+  equipPet(id){ Orchestrator.state.equippedPet = (Orchestrator.state.equippedPet===id? null : id); Orchestrator.save(); renderShop(); },
+  buyConsumable(id){
+    const item = CONSUMABLES.find(i=>i.id===id); if(!item) return;
+    if(Orchestrator.state.meat < item.price){ toast('고기가 부족해요! 🍖'); return; }
+    Orchestrator.state.meat -= item.price;
+    Orchestrator.state.barrierGauge = Math.min(100, Orchestrator.state.barrierGauge + item.restore);
+    Orchestrator.save(); toast(item.emoji+' '+item.name+' 사용! 보호막 +'+item.restore); renderShop();
+  },
+};
+
+/* =========================================================
+   AGENT: 일일 임무
+========================================================= */
+const DailyAgent = {
+  claim(id){
+    const mission = DAILY_MISSIONS.find(m=>m.id===id); if(!mission) return;
+    const daily = ensureDaily(Orchestrator.state);
+    if(daily.claimed[id]) return;
+    if(mission.progress(daily) < mission.target){ toast('아직 완료하지 못했어요!'); return; }
+    daily.claimed[id] = true;
+    Orchestrator.earnMeat(mission.reward);
+    Orchestrator.save(); toast(`📅 ${mission.name} 완료! 고기 +${mission.reward}`); renderDaily();
+  }
+};
+
+/* =========================================================
+   AGENT: 업적
+========================================================= */
+const AchievementAgent = {
+  claim(id){
+    const ach = ACHIEVEMENTS.find(a=>a.id===id); if(!ach) return;
+    const s = Orchestrator.state;
+    if(s.claimedAchievements.includes(id)) return;
+    if(ach.progress(s) < ach.target){ toast('아직 달성하지 못했어요!'); return; }
+    s.claimedAchievements.push(id);
+    Orchestrator.earnMeat(ach.reward);
+    Orchestrator.save(); toast(`🏆 ${ach.name} 달성! 고기 +${ach.reward}`); renderAchievements();
+  }
+};
+
+/* =========================================================
+   AGENT: 미니게임 (보호막 방어전)
+========================================================= */
+let battle = null; // {stageIdx, ghostHp, ghostMax, timeLeft, timerId, over, won}
+const BattleAgent = {
+  start(stageIdx){
+    if(battle && battle.timerId) clearInterval(battle.timerId);
+    battle = { stageIdx, ghostHp:32, ghostMax:32, timeLeft:14, timerId:null, over:false, won:false };
+    renderBattle();
+    battle.timerId = setInterval(()=>{
+      battle.timeLeft -= 1;
+      if(battle.timeLeft <= 0){ BattleAgent.finish(false); return; }
+      renderBattle();
+    }, 1000);
+  },
+  hit(){
+    if(!battle || battle.over) return;
+    const dmg = 2 + Math.floor(Math.random()*4) + Orchestrator.weaponDmg();
+    battle.ghostHp = Math.max(0, battle.ghostHp - dmg);
+    if(battle.ghostHp === 0){ BattleAgent.finish(true); return; }
+    renderBattle();
+  },
+  finish(won){
+    if(battle.timerId) clearInterval(battle.timerId);
+    battle.over = true; battle.won = won;
+    if(won){
+      Orchestrator.earnMeat(30);
+      Orchestrator.state.barrierGauge = 100;
+      Orchestrator.state.clearedStages[battle.stageIdx] = true;
+      Orchestrator.state.bossKills += 1;
+      Orchestrator.save();
+    } else {
+      Orchestrator.state.barrierGauge = Math.max(15, Orchestrator.state.barrierGauge - 10);
+      Orchestrator.save();
+    }
+    renderBattle();
+  },
+  retry(){ BattleAgent.start(battle.stageIdx); }
+};
+
+/* =========================================================
+   RENDER HELPERS
+========================================================= */
+function mount(html, opts){
+  document.getElementById('app').innerHTML = html;
+  renderBottomNav(opts && opts.nav);
+  document.body.classList.toggle('light-mode', !!(opts && opts.light));
+  window.scrollTo(0,0);
+}
+function toast(msg){
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 1800);
+}
+function bannerHtml(name, alt){
+  return `<div class="login-banner"><img src="${assetSrc(name)}" alt="${alt||''}" style="width:100%;display:block;"/></div>`;
+}
+function renderBottomNav(active){
+  let el = document.getElementById('bottomNav');
+  if(!active){ if(el) el.remove(); return; }
+  const tabs = [
+    { key:'map', label:'지도', ic:'🗺️', fn:'renderMap' },
+    { key:'train', label:'훈련장', ic:'🎯', fn:'renderTrainHome' },
+    { key:'shop', label:'상점', ic:'🛍️', fn:'renderShop' },
+    { key:'equip', label:'착용', ic:'🎽', fn:'renderEquip' },
+    { key:'achieve', label:'업적', ic:'🏆', fn:'renderAchievements' },
+    { key:'notes', label:'오답노트', ic:'📕', fn:'renderWrongNotes' },
+  ];
+  const html = `<div class="bottom-nav-inner">${tabs.map(t=>`
+    <button class="nav-btn ${active===t.key?'active':''}" onclick="Harness.safeRun(${t.fn})">
+      <span class="ic">${t.ic}</span><span class="lbl">${t.label}</span>
+    </button>`).join('')}</div>`;
+  if(!el){ el = document.createElement('div'); el.id='bottomNav'; el.className='bottom-nav'; document.body.appendChild(el); }
+  el.innerHTML = html;
+}
+
+function equippedCostumeInfo(){ return COSTUMES.find(c=>c.id===Orchestrator.state.equippedCostume) || null; }
+function avatarRingStyle(){
+  const costume = equippedCostumeInfo();
+  return costume ? `box-shadow:0 0 0 2px var(--gold1);` : '';
+}
+function equippedPreviewHtml(){
+  const s = Orchestrator.state;
+  const costume = equippedCostumeInfo();
+  const weapon = WEAPONS.find(w=>w.id===s.equippedWeapon) || null;
+  const pet = PETS.find(p=>p.id===s.equippedPet) || null;
+  const glow = costume ? '#D9B76A' : '#7d5fff';
+  return `
+    <div style="position:relative;width:150px;height:180px;margin:0 auto;">
+      <div style="position:absolute;inset:-10%;border-radius:50%;background:radial-gradient(ellipse at 50% 62%, ${glow}55, ${glow}00 72%);"></div>
+      <div style="position:relative;width:100%;height:100%;">${Orchestrator.avatarImgHtml()}</div>
+      ${weapon ? `<div style="position:absolute;left:0;bottom:6px;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));">${weapon.emoji}</div>` : ''}
+      ${pet ? `<div style="position:absolute;right:0;bottom:6px;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));">${pet.emoji}</div>` : ''}
+    </div>
+    <p class="tag center" style="margin-top:6px;">${costume ? costume.emoji+' '+costume.name : '옷 미착용'} · ${weapon ? weapon.emoji+' '+weapon.name : '무기 미착용'} · ${pet ? pet.emoji+' '+pet.name : '펫 없음'}</p>`;
+}
+
+function statusBar(){
+  const s = Orchestrator.state;
+  const cleared = s.clearedStages.filter(Boolean).length;
+  const pet = Orchestrator.petEmoji();
+  return `
+    <div class="status-bar">
+      <div class="avatar-badge" style="${avatarRingStyle()}">${Orchestrator.avatarImgHtml()}</div>
+      <div class="status-col">
+        <div><b>${s.nickname}</b> <span class="pill">${Orchestrator.rank()}</span> ${pet}</div>
+        <div class="status-mini">🛡️ 보호막 Lv.${s.barrierLevel} · ${s.barrierGauge}/100</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${s.barrierGauge}%;background:var(--shield);"></div></div>
+      </div>
+      <div class="status-col" style="max-width:150px;">
+        <div class="status-mini">🍖 고기 ${s.meat}</div>
+        <div class="status-mini">🗺️ ${cleared}/${STAGES.length} 시대 클리어</div>
+      </div>
+    </div>`;
+}
+
+/* =========================================================
+   SCREENS
+========================================================= */
+function renderLogin(){
+  mount(`
+    <div class="login-banner" style="position:relative;">
+      <img src="${assetSrc('로그인화면.png')}" alt="세종의 결계: 역사 수호대" style="width:100%; display:block;"/>
+      <div style="position:absolute; left:23.2%; top:71.5%; width:53%; height:19%; background:#eed6b0; border-radius:0 0 14px 14px;"></div>
+      <div style="position:absolute; left:25.4%; top:52.9%; width:35%; height:6.3%; background:#dfc29a; border-radius:8px;"></div>
+      <input id="nicknameInput" type="text" maxlength="10" placeholder="닉네임 입력" aria-label="한국사 ID (닉네임)"
+        style="position:absolute; left:25.4%; top:52.9%; width:35%; height:6.3%; background:transparent; border:none; outline:none; padding:0 0 0 6%; font-size:16px; font-weight:700; font-family:inherit; color:#4a3016;" />
+      <button aria-label="로그인" onclick="Harness.safeRun(()=>AuthAgent.login(document.getElementById('nicknameInput').value))"
+        style="position:absolute; left:62.1%; top:52.3%; width:12.5%; height:16.8%; background:transparent; border:none; padding:0; margin:0; cursor:pointer;"></button>
+    </div>
+  `);
+  const input = document.getElementById('nicknameInput');
+  input.focus();
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') AuthAgent.login(input.value); });
+}
+
+let charSelectGender = null;
+function renderCharacterSelect(){
+  const current = AVATARS.find(a=>a.id===Orchestrator.state.avatar);
+  if(charSelectGender === null) charSelectGender = current ? current.gender : null;
+
+  if(!charSelectGender){
+    mount(`
+      <h1>🧝 캐릭터를 선택하세요</h1>
+      <p class="sub-title">먼저 성별을 선택해주세요.</p>
+      <div class="grid2">
+        <div class="avatar-pick" onclick="Harness.safeRun(()=>{charSelectGender='m'; renderCharacterSelect();})">
+          <div style="font-size:54px;">🙋‍♂️</div>
+          <div class="nm"><b>남자</b></div>
+        </div>
+        <div class="avatar-pick" onclick="Harness.safeRun(()=>{charSelectGender='f'; renderCharacterSelect();})">
+          <div style="font-size:54px;">🙋‍♀️</div>
+          <div class="nm"><b>여자</b></div>
+        </div>
+      </div>
+      ${Orchestrator.state.storySeen ? `<button class="btn-ghost mt14" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>` : ''}
+    `);
+    return;
+  }
+
+  const list = AVATARS.filter(a=>a.gender===charSelectGender);
+  mount(`
+    <h1>🧝 캐릭터를 선택하세요</h1>
+    <p class="sub-title">${Orchestrator.state.nickname}님과 함께 시간 여행을 떠날 캐릭터를 골라주세요.</p>
+    <div class="grid2">
+      ${list.map(a=>`
+        <div class="avatar-pick ${Orchestrator.state.avatar===a.id?'selected':''}" onclick="Harness.safeRun(()=>AuthAgent.chooseAvatar('${a.id}'))">
+          <div class="avatar-frame">${avatarImgHtml(a)}</div>
+          <div class="nm"><b>${a.name}</b></div>
+        </div>
+      `).join('')}
+    </div>
+    <button class="btn-ghost mt14" onclick="Harness.safeRun(()=>{charSelectGender=null; renderCharacterSelect();})">← 성별 다시 선택</button>
+    ${Orchestrator.state.storySeen ? `<button class="btn-ghost mt8" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>` : ''}
+  `);
+}
+
+function renderStory(){
+  mount(`
+    <h1>📖 세종대왕님의 이야기</h1>
+    <div class="card center">
+      <div class="sejong-portrait">${sejongImgHtml()}</div>
+    </div>
+    <div class="card">
+      <p>먼 옛날, 조선의 성군 <b>세종대왕</b>은 이상한 기운을 느꼈습니다. 시간의 틈 사이로 정체를 알 수 없는 <b>'역사 악령'</b>들이 나타나 소중한 우리 역사를 흐트러뜨리려 했던 것이지요!</p>
+      <p>세종대왕은 온 힘을 다해 나라 곳곳에 커다란 <b>보호막</b>을 펼쳤습니다. 하지만 보호막은 가만히 두면 점점 약해져요. 보호막의 힘을 채우려면 <b>'고기(에너지)'</b>가 꼭 필요하답니다! 🍖</p>
+      <p>세종대왕은 용감한 시간 탐험가, 바로 <b>당신</b>을 선택했습니다. 선사시대 곳곳을 탐험하며 역사 문제를 풀어 고기를 모으고, 나타나는 역사 악령들을 물리쳐 보호막을 굳건히 지켜주세요!</p>
+      <button class="btn-gold" onclick="Harness.safeRun(StoryAgent.markSeen)">🗺️ 선사시대로 떠나기</button>
+    </div>
+  `);
+}
+
+function renderMap(){
+  const s = Orchestrator.state;
+  const cleared = s.clearedStages.filter(Boolean).length;
+  mount(`
+    <div class="map-ornate card">
+      <div class="map-title">◆ 선사시대 지도 ◆</div>
+      <div class="map-profile-row">
+        <div class="map-avatar-ring">${Orchestrator.avatarImgHtml()}</div>
+        <div class="status-col">
+          <div><b>${s.nickname}</b> <span class="pill">${Orchestrator.rank()}</span> ${Orchestrator.petEmoji()}</div>
+          <div class="status-mini">🛡️ 보호막 Lv.${s.barrierLevel} · ${s.barrierGauge}/100</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${s.barrierGauge}%;background:var(--exp);box-shadow:0 0 8px rgba(69,213,244,.6);"></div></div>
+        </div>
+        <div class="status-col" style="max-width:120px;text-align:right;">
+          <div class="status-mini">🍖 고기 ${s.meat}</div>
+          <div class="status-mini">🗺️ ${cleared}/${STAGES.length} 클리어</div>
+        </div>
+      </div>
+
+      <div class="map-quote">
+        <div class="sejong-portrait small">${sejongImgHtml()}</div>
+        <p style="margin:0;font-size:13px;">"보호막이 흔들리고 있구나... 문제를 풀어 고기를 모아다오!"</p>
+      </div>
+
+      <div class="map-divider">시대를 선택해 악령을 물리치세요</div>
+      ${STAGES.map((stage, idx)=>{
+        const locked = idx > 0 && !s.clearedStages[idx-1];
+        const isCleared = s.clearedStages[idx];
+        const current = !locked && !isCleared;
+        return `
+        <div class="stage-row ${locked?'locked':''} ${current?'current':''}" ${locked?'':`onclick="Harness.safeRun(()=>StoryAgent.stageIntro(${idx}))"`}>
+          <div class="stage-icon-tile">${ghostImgHtml(idx)}</div>
+          <div class="info">
+            <div><b>${stage.name}</b> <small class="tag">(${stage.tag})</small></div>
+            <small class="tag">${locked ? '🔒 이전 시대를 클리어하면 열려요' : (isCleared ? stage.ghostName + ' 격퇴 완료!' : stage.ghostName + '이(가) 기다리고 있어요')}</small>
+          </div>
+          ${isCleared ? '<span class="badge-clear">CLEAR</span>' : (locked ? '' : '<span class="stage-arrow">›</span>')}
+        </div>`;
+      }).join('')}
+
+      <button class="btn-gold mt14" onclick="Harness.safeRun(renderDaily)">📅 일일 임무</button>
+      <div class="btn-row mt8">
+        <button class="btn-royal" onclick="Harness.safeRun(renderCharacterSelect)">🧝 캐릭터 변경</button>
+        <button class="btn-royal" onclick="Harness.safeRun(renderStory)">📖 이야기 다시보기</button>
+      </div>
+      <button class="btn-royal-red mt8" onclick="Harness.safeRun(AuthAgent.logout)">🚪 다른 닉네임으로 시작</button>
+    </div>
+  `, { nav:'map' });
+}
+
+function renderStageIntro(stageIdx){
+  const stage = STAGES[stageIdx];
+  mount(`
+    <h1>${stage.name}</h1>
+    ${statusBar()}
+    <div class="card center">
+      <div class="ghost-icon" style="width:90px;height:90px;margin:0 auto;">${ghostImgHtml(stageIdx, {angry:true})}</div>
+      <p class="tag">${stage.ghostName}</p>
+    </div>
+    <div class="card">
+      <p>${stage.intro}</p>
+      <button class="btn-main" onclick="Harness.safeRun(()=>QuizAgent.start(${stageIdx}))">📜 퀴즈 도전하기</button>
+      <button class="btn-ghost mt8" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>
+    </div>
+  `);
+}
+
+function renderQuiz(){
+  const stage = STAGES[quizSession.stageIdx];
+  const qIdx = quizSession.showExplain ? quizSession.lastQIdx : quizSession.queue[0];
+  const q = stage.questions[qIdx];
+  const total = stage.questions.length;
+  const remaining = quizSession.queue.length;
+  const progress = Math.round(((total - remaining) / total) * 100);
+
+  const choicesHtml = q.choices.map((c, i)=>{
+    let cls = 'choice-btn';
+    if(quizSession.showExplain){
+      if(i === q.answer) cls += ' choice-correct';
+      else if(i === quizSession.selected) cls += ' choice-wrong';
+    } else if(i === quizSession.selected){
+      cls += ' picked';
+    }
+    const disabled = quizSession.showExplain ? 'disabled' : '';
+    return `<button class="${cls}" ${disabled} onclick="Harness.safeRun(()=>QuizAgent.pick(${i}))">${String.fromCharCode(9312+i)} ${c}</button>`;
+  }).join('');
+
+  let actionBlock = '';
+  if(!quizSession.showExplain){
+    actionBlock = `<button class="btn-gold mt8" ${quizSession.selected==null?'disabled':''} onclick="Harness.safeRun(QuizAgent.confirm)">✅ 정답 확인</button>`;
+  } else {
+    const correct = quizSession.lastCorrect;
+    actionBlock = `
+      <div class="card" style="border-color:${correct?'var(--good)':'var(--bad)'};margin-top:14px;">
+        <b>${correct ? '✅ 정답이에요! 참 잘했어요!' : '❌ 아쉬워요, 다시 도전해봐요!'}</b>
+        <p>${q.explain}</p>
+        ${correct ? `<p class="tag" style="color:var(--gold)">🍖 고기 +${quizSession.lastReward} 획득! 보호막 +4</p>` : `<p class="tag" style="color:var(--bad)">🛡️ 보호막이 조금 흔들렸어요...</p>`}
+        <button class="btn-main" onclick="Harness.safeRun(QuizAgent.next)">${correct ? (remaining<=0 ? '👻 보호막 방어전으로!' : '다음 문제 →') : '🔁 이 문제 다시 풀기'}</button>
+      </div>`;
+  }
+
+  mount(`
+    <h1>${stage.name} 퀴즈</h1>
+    ${statusBar()}
+    <div class="card">
+      <div class="bar-track mt8"><div class="bar-fill" style="width:${progress}%;background:var(--gold);"></div></div>
+      <p class="tag" style="margin:6px 0 14px;">${total - remaining} / ${total} 문제 완료</p>
+      <h2>Q. ${q.q}</h2>
+      ${choicesHtml}
+      ${!quizSession.showExplain ? actionBlock : ''}
+    </div>
+    ${quizSession.showExplain ? actionBlock : ''}
+    <button class="btn-ghost" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기 (진행상황은 저장돼요)</button>
+  `, { light:true });
+}
+
+function renderStageClearTransition(stageIdx){
+  const stage = STAGES[stageIdx];
+  mount(`
+    <h1>${stage.name} 퀴즈 완료!</h1>
+    ${statusBar()}
+    <div class="card center">
+      <p>모든 문제를 풀었습니다! 이제 <b>${stage.ghostName}</b>이(가) 보호막을 향해 달려들고 있어요.</p>
+      <div class="ghost-icon" style="width:100px;height:100px;margin:10px auto;">${ghostImgHtml(stageIdx, {angry:true})}</div>
+      <button class="btn-main" onclick="Harness.safeRun(()=>BattleAgent.start(${stageIdx}))">⚔️ 보호막 방어전 시작!</button>
+    </div>
+  `);
+}
+
+function renderBattle(){
+  const stage = STAGES[battle.stageIdx];
+  const hpPct = Math.round((battle.ghostHp / battle.ghostMax) * 100);
+  let resultBlock = '';
+  if(battle.over){
+    resultBlock = battle.won ? `
+      <div class="card center" style="border-color:var(--good);">
+        <h2>🎉 ${stage.ghostName} 격퇴 성공!</h2>
+        <p>🍖 보너스 고기 +30 획득! 보호막이 가득 채워졌어요! ${stage.name}를 완전히 클리어했습니다!</p>
+        <button class="btn-gold" onclick="Harness.safeRun(renderMap)">🗺️ 지도로 돌아가기</button>
+      </div>` : `
+      <div class="card center" style="border-color:var(--bad);">
+        <h2>😢 시간이 끝났어요...</h2>
+        <p>괜찮아요! 무기를 사서 다시 도전하면 반드시 물리칠 수 있어요.</p>
+        <button class="btn-main" onclick="Harness.safeRun(BattleAgent.retry)">🔁 다시 도전하기</button>
+        <button class="btn-ghost mt8" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>
+      </div>`;
+  }
+  const wdmg = Orchestrator.weaponDmg();
+
+  mount(`
+    <h1>⚔️ 보호막 방어전: ${stage.ghostName}</h1>
+    ${statusBar()}
+    <div class="card center">
+      <p>${stage.ghostName}이(가) 세종대왕님의 보호막을 공격하고 있습니다! 계속 클릭해서 물리치세요!</p>
+      <div class="ghost-wrap"><div class="ghost-battle-em" style="margin:0 auto;">${battle.over && battle.won ? sejongImgHtml() : ghostImgHtml(battle.stageIdx, {angry:true})}</div></div>
+      <p class="tag">악령 체력</p>
+      <div class="bar-track"><div class="bar-fill" style="width:${hpPct}%;background:var(--bad);"></div></div>
+      <p class="tag mt8">⏱️ 남은 시간: ${Math.max(0,battle.timeLeft)}초 ${wdmg?`<span class="weapon-tag">(무기 공격력 +${wdmg})</span>`:''}</p>
+      ${!battle.over ? `<button class="btn-main mt14" onclick="Harness.safeRun(BattleAgent.hit)">👊 공격하기!</button>` : ''}
+    </div>
+    ${resultBlock}
+  `, { light:true });
+}
+
+let shopTab = 'recommend';
+
+function shopItemRow(item, owned, equipped, buyFn, equipFn, locked){
+  return `
+    <div class="shop-item ${equipped?'equipped':''} ${locked?'locked':''}">
+      <div class="em">${item.emoji}</div>
+      <div class="info">
+        <div><b>${item.name}</b>${item.dmg?` <small class="tag">공격력 +${item.dmg}</small>`:''}</div>
+        <small class="tag">${owned ? (equipped ? '장착 중' : '보유 중 (미장착)') : (locked ? '🔒 이전 단계 필요' : '🍖 ' + item.price)}</small>
+      </div>
+      ${owned
+        ? `<button class="btn-ghost" style="width:auto;" onclick="Harness.safeRun(()=>${equipFn}('${item.id}'))">${equipped?'해제':'장착'}</button>`
+        : `<button class="btn-gold" style="width:auto;" ${locked?'disabled':''} onclick="Harness.safeRun(()=>${buyFn}('${item.id}'))">구매</button>`}
+    </div>`;
+}
+
+/* 참고 이미지(소모품/강화/옷/펫 상점 스크린샷) 위 좌표 템플릿 — % 기준, 이미지 원본 비율에 맞춰 측정 */
+const SHOP_TEMPLATES = {
+  A: { // 소모품화면.jpg(추천/소모품), 강화상점.jpg — 상단에 고기 표시 없는 레이아웃
+    back:{l:1.1,t:1.5,w:8.7,h:11.8},
+    tabs:{
+      recommend:{l:2.5,t:26.1,w:16.0,h:7.8},
+      pet:{l:2.5,t:34.9,w:16.0,h:7.8},
+      costume:{l:2.5,t:43.8,w:16.0,h:7.8},
+      consumable:{l:2.5,t:52.1,w:16.0,h:8.4},
+      barrier:{l:2.5,t:66.9,w:16.0,h:8.3},
+    },
+    grid:{ rowTop:[46.7,84.6], rowH:4.9, colLeft:[24.3,43.5,62.7,81.9], colW:14.1 },
+    meat:{l:35,t:93.8,w:30,h:4.2}
+  },
+  B: { // 옷상점.jpg, 펫상점.jpg — 상단에 고기 표시 + 부제목 있는 레이아웃
+    back:{l:1.1,t:1.5,w:8.9,h:9.7},
+    meatTop:{l:77.5,t:5.8,w:19,h:8.4},
+    tabs:{
+      recommend:{l:2.6,t:24.7,w:16.3,h:7.5},
+      pet:{l:2.6,t:33.2,w:16.3,h:7.6},
+      costume:{l:2.6,t:41.8,w:16.3,h:8.1},
+      consumable:{l:2.6,t:50.9,w:16.3,h:7.5},
+      barrier:{l:2.6,t:66.0,w:16.3,h:8.0},
+    },
+    grid:{ rowTop:[53.9,85.6], rowH:4.5, colLeft:[24.1,43.3,62.6,81.9], colW:14.1 },
+    meat:{l:26,t:93.3,w:48,h:6.2}
+  }
+};
+const SHOP_TABS_INFO = {
+  recommend:{ image:'소모품화면.jpg', template:'A', data:CONSUMABLES, mode:'consumable' },
+  consumable:{ image:'소모품화면.jpg', template:'A', data:CONSUMABLES, mode:'consumable' },
+  barrier:{ image:'강화상점.jpg', template:'A', data:BARRIER_UPGRADES, mode:'barrier' },
+  costume:{ image:'옷상점.jpg', template:'B', data:COSTUMES, mode:'equip' },
+  pet:{ image:'펫상점.jpg', template:'B', data:PETS, mode:'equip' },
+};
+
+function shopOverlayHtml(tabKey){
+  const info = SHOP_TABS_INFO[tabKey];
+  const tpl = SHOP_TEMPLATES[info.template];
+  const s = Orchestrator.state;
+
+  const tabButtons = Object.keys(tpl.tabs).map(k=>{
+    const r = tpl.tabs[k];
+    return `<button aria-label="${k}" onclick="Harness.safeRun(()=>{shopTab='${k}'; renderShop();})"
+      style="position:absolute;left:${r.l}%;top:${r.t}%;width:${r.w}%;height:${r.h}%;background:transparent;border:none;padding:0;margin:0;cursor:pointer;"></button>`;
+  }).join('');
+
+  let itemButtons = '';
+  info.data.forEach((item, idx)=>{
+    const row = idx < 4 ? 0 : 1;
+    const col = idx % 4;
+    const top = tpl.grid.rowTop[row];
+    const left = tpl.grid.colLeft[col];
+    let onClick = '', badge = '';
+    if(info.mode === 'consumable'){
+      onClick = `EconomyAgent.buyConsumable('${item.id}')`;
+    } else if(info.mode === 'barrier'){
+      const owned = s.ownedBarrierUpgrades.includes(item.id);
+      const locked = idx>0 && !s.ownedBarrierUpgrades.includes(BARRIER_UPGRADES[idx-1].id);
+      if(!owned && !locked) onClick = `EconomyAgent.buyBarrier('${item.id}')`;
+      if(owned) badge = `<div style="position:absolute;left:${left}%;top:${top-4.2}%;width:${tpl.grid.colW}%;text-align:center;color:#2ecc71;font-size:11px;font-weight:800;text-shadow:0 1px 3px #000;">✅ 강화완료</div>`;
+      else if(locked) badge = `<div style="position:absolute;left:${left}%;top:${top-4.2}%;width:${tpl.grid.colW}%;text-align:center;color:#AFA9BD;font-size:11px;font-weight:800;text-shadow:0 1px 3px #000;">🔒 잠김</div>`;
+    } else { // equip: costume / pet
+      const ownedArr = tabKey==='costume' ? s.ownedCostumes : s.ownedPets;
+      const equippedId = tabKey==='costume' ? s.equippedCostume : s.equippedPet;
+      const owned = ownedArr.includes(item.id);
+      const equipped = equippedId === item.id;
+      const buyFn = tabKey==='costume' ? 'EconomyAgent.buyCostume' : 'EconomyAgent.buyPet';
+      const equipFn = tabKey==='costume' ? 'EconomyAgent.equipCostume' : 'EconomyAgent.equipPet';
+      onClick = owned ? `${equipFn}('${item.id}')` : `${buyFn}('${item.id}')`;
+      if(equipped) badge = `<div style="position:absolute;left:${left}%;top:${top-4.2}%;width:${tpl.grid.colW}%;text-align:center;color:#ffd166;font-size:11px;font-weight:800;text-shadow:0 1px 3px #000;">⭐ 장착중</div>`;
+      else if(owned) badge = `<div style="position:absolute;left:${left}%;top:${top-4.2}%;width:${tpl.grid.colW}%;text-align:center;color:#2ecc71;font-size:11px;font-weight:800;text-shadow:0 1px 3px #000;">✅ 보유</div>`;
+    }
+    itemButtons += `${badge}<button aria-label="${item.name}" ${onClick?`onclick="Harness.safeRun(()=>${onClick})"`:'disabled'}
+      style="position:absolute;left:${left}%;top:${top}%;width:${tpl.grid.colW}%;height:${tpl.grid.rowH}%;background:transparent;border:none;padding:0;margin:0;cursor:${onClick?'pointer':'default'};"></button>`;
+  });
+
+  const meatBoxStyle = 'position:absolute;display:flex;align-items:center;justify-content:center;background:#0c0a18;border-radius:6px;color:#ff8a8a;font-weight:800;';
+  const meatCover = `<div style="${meatBoxStyle}left:${tpl.meat.l}%;top:${tpl.meat.t}%;width:${tpl.meat.w}%;height:${tpl.meat.h}%;font-size:13px;">🍖 보유 고기 ${s.meat}</div>`;
+  const meatTopCover = tpl.meatTop ? `<div style="${meatBoxStyle}left:${tpl.meatTop.l}%;top:${tpl.meatTop.t}%;width:${tpl.meatTop.w}%;height:${tpl.meatTop.h}%;font-size:12px;">🍖 고기 ${s.meat}</div>` : '';
+
+  return `
+    <div class="login-banner" style="position:relative;">
+      <img src="${assetSrc(info.image)}" alt="상점" style="width:100%;display:block;"/>
+      <button aria-label="뒤로" onclick="Harness.safeRun(renderMap)"
+        style="position:absolute;left:${tpl.back.l}%;top:${tpl.back.t}%;width:${tpl.back.w}%;height:${tpl.back.h}%;background:transparent;border:none;padding:0;margin:0;cursor:pointer;"></button>
+      ${tabButtons}
+      ${itemButtons}
+      ${meatCover}
+      ${meatTopCover}
+    </div>`;
+}
+
+function renderShop(){
+  const s = Orchestrator.state;
+  if(shopTab === 'weapon'){
+    const listHtml = WEAPONS.map(item=> shopItemRow(item, s.ownedWeapons.includes(item.id), s.equippedWeapon===item.id, 'EconomyAgent.buyWeapon', 'EconomyAgent.equipWeapon', false)).join('');
+    mount(`
+      <h1>⚔️ 무기 상점</h1>
+      ${statusBar()}
+      <div class="card">${listHtml}</div>
+      <button class="btn-royal" onclick="Harness.safeRun(()=>{shopTab='recommend'; renderShop();})">🖼️ 다른 상점 보기</button>
+    `, { nav:'shop' });
+    return;
+  }
+  mount(`
+    ${shopOverlayHtml(shopTab)}
+    ${statusBar()}
+    <button class="btn-royal" onclick="Harness.safeRun(()=>{shopTab='weapon'; renderShop();})">⚔️ 무기 상점 보기</button>
+  `, { nav:'shop' });
+}
+
+function renderEquip(){
+  const s = Orchestrator.state;
+  function section(title, items, ownedIds, equippedId, equipFn){
+    const owned = items.filter(i=>ownedIds.includes(i.id));
+    if(owned.length===0){
+      return `<h2>${title}</h2><p class="tag">아직 보유한 아이템이 없어요. 상점에서 구매해보세요!</p>`;
+    }
+    return `<h2>${title}</h2>` + owned.map(item=>`
+      <div class="shop-item ${equippedId===item.id?'equipped':''}">
+        <div class="em">${item.emoji}</div>
+        <div class="info"><div><b>${item.name}</b></div><small class="tag">${equippedId===item.id?'장착 중':'보유 중 (미장착)'}</small></div>
+        <button class="btn-ghost" style="width:auto;" onclick="Harness.safeRun(()=>${equipFn}('${item.id}'))">${equippedId===item.id?'해제':'착용'}</button>
+      </div>`).join('');
+  }
+  mount(`
+    <h1>🎽 내 캐릭터 착용창</h1>
+    ${statusBar()}
+    <div class="card center">
+      ${equippedPreviewHtml()}
+    </div>
+    <div class="card">${section('⚔️ 무기', WEAPONS, s.ownedWeapons, s.equippedWeapon, 'EconomyAgent.equipWeapon')}</div>
+    <div class="card">${section('👘 의상', COSTUMES, s.ownedCostumes, s.equippedCostume, 'EconomyAgent.equipCostume')}</div>
+    <div class="card">${section('🐾 펫', PETS, s.ownedPets, s.equippedPet, 'EconomyAgent.equipPet')}</div>
+    <button class="btn-main" onclick="Harness.safeRun(renderShop)">🛍️ 상점 가서 더 구매하기</button>
+  `, { nav:'equip' });
+}
+
+function renderDaily(){
+  const s = Orchestrator.state;
+  const daily = ensureDaily(s);
+  const bodyHtml = DAILY_MISSIONS.map(m=>{
+    const cur = Math.min(m.progress(daily), m.target);
+    const pct = Math.round((cur / m.target) * 100);
+    const claimed = !!daily.claimed[m.id];
+    const done = cur >= m.target;
+    return `
+    <div class="ach-card ${done?'done':''}">
+      <div class="ach-icon">${m.icon}</div>
+      <div class="ach-info">
+        <div class="ach-name">${m.name}</div>
+        <div class="bar-track mt8"><div class="bar-fill" style="width:${pct}%;background:${done?'var(--good)':'var(--exp)'};"></div></div>
+        <small class="tag">${cur} / ${m.target}</small>
+      </div>
+      <div class="ach-action">
+        ${claimed ? `<span class="badge-clear">완료</span>` : (done ? `<button class="btn-gold" style="width:auto;" onclick="Harness.safeRun(()=>DailyAgent.claim('${m.id}'))">🍖 +${m.reward}</button>` : `<small class="tag">🍖 ${m.reward}</small>`)}
+      </div>
+    </div>`;
+  }).join('');
+
+  mount(`
+    <h1>📅 일일 임무</h1>
+    ${statusBar()}
+    <div class="card">
+      <p class="tag">매일 자정에 초기화돼요. 오늘 안에 임무를 완료하고 고기를 받아가세요!</p>
+    </div>
+    <div class="card">${bodyHtml}</div>
+    <button class="btn-ghost" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>
+  `, { light:true });
+}
+
+let achieveTab = 'achieve';
+function renderAchievements(){
+  const s = Orchestrator.state;
+  let bodyHtml = '';
+  if(achieveTab === 'achieve'){
+    bodyHtml = ACHIEVEMENTS.map(a=>{
+      const cur = Math.min(a.progress(s), a.target);
+      const pct = Math.round((cur / a.target) * 100);
+      const claimed = s.claimedAchievements.includes(a.id);
+      const done = cur >= a.target;
+      return `
+      <div class="ach-card ${done?'done':''}">
+        <div class="ach-icon">${a.icon}</div>
+        <div class="ach-info">
+          <div class="ach-name">${a.name}</div>
+          <small class="tag">${a.desc}</small>
+          <div class="bar-track mt8"><div class="bar-fill" style="width:${pct}%;background:${done?'var(--good)':'var(--exp)'};"></div></div>
+          <small class="tag">${cur} / ${a.target}</small>
+        </div>
+        <div class="ach-action">
+          ${claimed ? `<span class="badge-clear">완료</span>` : (done ? `<button class="btn-gold" style="width:auto;" onclick="Harness.safeRun(()=>AchievementAgent.claim('${a.id}'))">🍖 +${a.reward}</button>` : `<small class="tag">🍖 ${a.reward}</small>`)}
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    bodyHtml = RANKS.map(r=>{
+      const active = Orchestrator.rank() === r.title;
+      const unlocked = s.totalMeatEarned >= r.min;
+      return `
+      <div class="ach-card ${active?'done':''}">
+        <div class="ach-icon">${active?'👑':(unlocked?'🎖️':'🔒')}</div>
+        <div class="ach-info">
+          <div class="ach-name">${r.title}</div>
+          <small class="tag">${unlocked ? '누적 고기 '+r.min+' 이상' : '누적 고기 '+r.min+' 필요 (현재 '+s.totalMeatEarned+')'}</small>
+        </div>
+        <div class="ach-action">${active ? '<span class="badge-clear">장착중</span>' : (unlocked ? '<small class="tag">달성함</small>' : '<small class="tag">🔒 잠김</small>')}</div>
+      </div>`;
+    }).join('');
+  }
+
+  mount(`
+    <h1>🏆 업적 · 칭호</h1>
+    ${statusBar()}
+    <div class="shop-tabs">
+      <button class="shop-tab ${achieveTab==='achieve'?'active':''}" onclick="Harness.safeRun(()=>{achieveTab='achieve'; renderAchievements();})">🏆 업적</button>
+      <button class="shop-tab ${achieveTab==='rank'?'active':''}" onclick="Harness.safeRun(()=>{achieveTab='rank'; renderAchievements();})">👑 칭호</button>
+    </div>
+    <div class="card">${bodyHtml}</div>
+  `, { nav:'achieve' });
+}
+
+function renderTrainHome(){
+  const s = Orchestrator.state;
+  const wrongCount = s.wrongNotes.filter(n=>!n.cleared).length;
+  mount(`
+    <h1>🎯 훈련장</h1>
+    ${statusBar()}
+    <div class="card">
+      <h2>편하게 복습해보세요</h2>
+      <p class="tag">시간제한도 없고 틀려도 보호막이 깎이지 않아요. 대신 고기는 주지 않아요.</p>
+      <button class="btn-main" onclick="Harness.safeRun(TrainAgent.startAll)">🔀 전체 랜덤 복습</button>
+      ${wrongCount>0 ? `<button class="btn-gold mt8" onclick="Harness.safeRun(TrainAgent.startWrongNotes)">📕 오답노트 복습 (${wrongCount}문제)</button>` : ''}
+      <button class="btn-ghost mt8" onclick="Harness.safeRun(renderWorksheetSelect)">📝 빈칸 시험지 만들기</button>
+    </div>
+    <div class="card">
+      <h2>시대별 복습</h2>
+      ${STAGES.map((stage,idx)=>`
+        <div class="stage-row" onclick="Harness.safeRun(()=>TrainAgent.startStage(${idx}))">
+          <div class="stage-icon-tile">${ghostImgHtml(idx)}</div>
+          <div class="info">
+            <div><b>${stage.name}</b> <small class="tag">(${stage.tag})</small></div>
+            <small class="tag">문제 ${stage.questions.length}개</small>
+          </div>
+          <span class="stage-arrow">›</span>
+        </div>
+      `).join('')}
+    </div>
+  `, { nav:'train', light:true });
+}
+
+function renderTrain(){
+  const cur = trainSession.items[trainSession.idx];
+  const stage = STAGES[cur.stageIdx];
+  const q = stage.questions[cur.qIdx];
+  const total = trainSession.items.length;
+
+  const choicesHtml = q.choices.map((c, i)=>{
+    let cls = 'choice-btn';
+    if(trainSession.showExplain){
+      if(i === q.answer) cls += ' choice-correct';
+      else if(i === trainSession.selected) cls += ' choice-wrong';
+    } else if(i === trainSession.selected){
+      cls += ' picked';
+    }
+    const disabled = trainSession.showExplain ? 'disabled' : '';
+    return `<button class="${cls}" ${disabled} onclick="Harness.safeRun(()=>TrainAgent.pick(${i}))">${String.fromCharCode(9312+i)} ${c}</button>`;
+  }).join('');
+
+  let actionBlock = '';
+  if(!trainSession.showExplain){
+    actionBlock = `<button class="btn-gold mt8" ${trainSession.selected==null?'disabled':''} onclick="Harness.safeRun(TrainAgent.confirm)">✅ 정답 확인</button>`;
+  } else {
+    const correct = trainSession.lastCorrect;
+    actionBlock = `
+      <div class="card" style="border-color:${correct?'var(--good)':'var(--bad)'};margin-top:14px;">
+        <b>${correct ? '✅ 정답이에요!' : '❌ 아쉬워요!'}</b>
+        <p>${q.explain}</p>
+        <button class="btn-main" onclick="Harness.safeRun(TrainAgent.next)">${trainSession.idx+1>=total ? '결과 보기' : '다음 문제 →'}</button>
+      </div>`;
+  }
+
+  mount(`
+    <h1>🎯 ${trainSession.title}</h1>
+    <div class="card">
+      <p class="tag" style="margin:0 0 14px;">${trainSession.idx+1} / ${total} 문제 · ${stage.name}</p>
+      <h2>Q. ${q.q}</h2>
+      ${choicesHtml}
+      ${!trainSession.showExplain ? actionBlock : ''}
+    </div>
+    ${trainSession.showExplain ? actionBlock : ''}
+    <button class="btn-ghost" onclick="Harness.safeRun(renderTrainHome)">← 훈련장으로 돌아가기</button>
+  `, { light:true });
+}
+
+function renderTrainResult(){
+  const total = trainSession.items.length;
+  const correct = trainSession.correctCount;
+  mount(`
+    <h1>🎯 훈련 완료!</h1>
+    ${statusBar()}
+    <div class="card center">
+      <h2>${trainSession.title}</h2>
+      <p style="font-size:32px;font-weight:800;color:var(--gold);">${correct} / ${total}</p>
+      <p class="tag">${correct===total ? '완벽해요! 👏' : '꾸준히 복습하면 실력이 쑥쑥 늘어요!'}</p>
+      <button class="btn-main" onclick="Harness.safeRun(renderTrainHome)">🔁 다시 훈련하기</button>
+      <button class="btn-ghost mt8" onclick="Harness.safeRun(renderMap)">🗺️ 지도로 돌아가기</button>
+    </div>
+  `, { light:true });
+}
+
+function renderWorksheetSelect(){
+  mount(`
+    <h1>📝 빈칸 시험지 만들기</h1>
+    ${statusBar()}
+    <div class="card">
+      <p class="tag">시대를 고르면 그동안 배운 내용으로 시험지를 만들어드려요. 인쇄해서 실제 시험처럼 풀어보세요!</p>
+      ${STAGES.map((stage,idx)=>`
+        <div class="stage-row" onclick="Harness.safeRun(()=>renderWorksheet(${idx}))">
+          <div class="stage-icon-tile">${ghostImgHtml(idx)}</div>
+          <div class="info">
+            <div><b>${stage.name}</b></div>
+            <small class="tag">문제 ${stage.questions.length}개</small>
+          </div>
+          <span class="stage-arrow">›</span>
+        </div>
+      `).join('')}
+    </div>
+    <button class="btn-ghost" onclick="Harness.safeRun(renderTrainHome)">← 훈련장으로</button>
+  `, { light:true });
+}
+
+function renderWorksheet(stageIdx){
+  const stage = STAGES[stageIdx];
+  const s = Orchestrator.state;
+  const dateStr = new Date().toLocaleDateString('ko-KR');
+  mount(`
+    <div class="worksheet-paper">
+      <div class="worksheet-title">한국사 빈칸 시험지</div>
+      <div class="worksheet-subject"><span>주제: ${stage.name} (${stage.tag})</span></div>
+      <div class="worksheet-fields">
+        <span>이름: ${s.nickname}</span>
+        <span>날짜: ${dateStr}</span>
+        <span class="worksheet-score">점수: ___ / ${stage.questions.length * 10}</span>
+      </div>
+      <p class="worksheet-instruction">다음 질문을 읽고 알맞은 답을 빈칸에 쓰세요.</p>
+      <ol class="worksheet-list">
+        ${stage.questions.map(q=>`<li>${q.q}<div class="ws-blank">→ 정답: <span class="ws-line">&nbsp;</span></div></li>`).join('')}
+      </ol>
+      <button class="btn-gold no-print" onclick="this.nextElementSibling.classList.toggle('show')">✅ 정답 확인하기</button>
+      <div class="worksheet-answers">
+        <b>정답</b>
+        <ol>${stage.questions.map(q=>`<li>${q.choices[q.answer]} — ${q.explain}</li>`).join('')}</ol>
+      </div>
+    </div>
+    <button class="btn-main no-print" onclick="window.print()">🖨️ 인쇄하기</button>
+    <button class="btn-ghost mt8 no-print" onclick="Harness.safeRun(renderWorksheetSelect)">← 다른 시대 선택</button>
+  `, { light:true });
+}
+
+function renderWrongNotes(){
+  const notes = Orchestrator.state.wrongNotes.slice().sort((a,b)=> (a.cleared - b.cleared));
+  mount(`
+    <h1>📕 오답노트</h1>
+    ${statusBar()}
+    <div class="card">
+      ${notes.length === 0 ? '<p>아직 틀린 문제가 없어요! 완벽해요 👏</p>' : notes.map(n=>`
+        <div class="note-item ${n.cleared?'cleared':''}">
+          <small class="tag">${n.era} · 틀린 횟수 ${n.missCount}회 ${n.cleared?'· ✅ 극복 완료':'· ⏳ 다시 도전 필요'}</small>
+          <p><b>${n.question}</b></p>
+          <p class="tag">정답: ${n.answerText} — ${n.explain}</p>
+        </div>
+      `).join('')}
+    </div>
+  `, { nav:'notes' });
+}
+
+/* =========================================================
+   INIT
+========================================================= */
+window.onload = () => Harness.safeRun(renderLogin, renderLogin);
+</script>
+</body>
+</html>
