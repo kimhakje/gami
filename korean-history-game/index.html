@@ -593,6 +593,27 @@ const AuthAgent = {
   logout(){ Orchestrator.state = null; charSelectGender = null; renderLogin(); }
 };
 
+/* 실험/테스트용 계정 — 매번 새로 만들 필요 없이 바로 게임에 들어가서 확인해볼 수 있도록 */
+const TEST_ACCOUNT = { nickname:'테스트유저', password:'test1234' };
+function startTestAccount(){
+  let existing = Orchestrator.load(TEST_ACCOUNT.nickname);
+  if(!existing){
+    existing = Orchestrator.newState(TEST_ACCOUNT.nickname);
+    existing.passwordHash = simpleHash(TEST_ACCOUNT.password);
+    existing.avatar = 'm_sword';
+    existing.storySeen = true;
+    existing.meat = 500;
+    existing.totalMeatEarned = 500;
+    Orchestrator.state = existing;
+    Orchestrator.save();
+    toast('🧪 테스트 계정을 만들었어요! (고기 500 지급)');
+  } else {
+    Orchestrator.state = existing;
+    toast('🧪 테스트 계정으로 접속했어요!');
+  }
+  renderMap();
+}
+
 /* =========================================================
    AGENT: 스토리 및 월드
 ========================================================= */
@@ -935,6 +956,7 @@ function renderLogin(){
         style="position:absolute; left:62.1%; top:52.3%; width:12.5%; height:16.8%; background:transparent; border:none; padding:0; margin:0; cursor:pointer;"></button>
     </div>
     <p class="sub-title no-print" style="margin-top:10px;">💡 처음이면 닉네임 + 새 비밀번호를 입력하면 바로 계정이 만들어져요!</p>
+    <button class="btn-ghost no-print" onclick="Harness.safeRun(startTestAccount)">🧪 테스트 계정으로 바로 시작하기</button>
   `);
   const nicknameInput = document.getElementById('nicknameInput');
   const passwordInput = document.getElementById('passwordInput');
