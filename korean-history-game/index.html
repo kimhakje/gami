@@ -159,6 +159,67 @@
   .worksheet-answers{ display:none; margin-top:14px; padding-top:10px; border-top:1px dashed #b8873a; }
   .worksheet-answers.show{ display:block; }
   .worksheet-answers ol{ padding-left:20px; }
+
+  /* ===== 메인(지도) 화면 — 크림/골드 전통 테마 ===== */
+  .map2-wrap{
+    background:#f7f1e2; border:1px solid #d8c9a0; border-radius:20px; padding:22px;
+    box-shadow:0 10px 30px rgba(120,90,40,.12); margin-bottom:16px;
+  }
+  .map2-title-row{ text-align:center; margin-bottom:18px; }
+  .map2-title{ font-size:30px; font-weight:900; color:#2b2420; letter-spacing:1px; }
+  .map2-title .dia{ color:#c9a15a; font-size:18px; margin:0 10px; }
+  .map2-grid{ display:grid; grid-template-columns:1.05fr 1fr; gap:18px; align-items:start; }
+  @media (max-width:760px){ .map2-grid{ grid-template-columns:1fr; } }
+  .map2-card{
+    background:#fffdf7; border:1px solid #e2d3a8; border-radius:16px; padding:16px;
+    box-shadow:0 4px 14px rgba(120,90,40,.08); margin-bottom:14px;
+  }
+  .map2-left-header{ text-align:center; color:#8a6d2f; font-weight:700; font-size:14px; margin-bottom:14px; }
+  .map2-left-header .dia{ color:#c9a15a; margin:0 8px; }
+  .map2-stage{
+    display:flex; align-items:center; gap:14px; background:#fdfbf3; border:1px solid #e6dab8; border-radius:14px;
+    padding:12px 14px; margin-bottom:12px;
+  }
+  .map2-stage.locked{ opacity:.55; }
+  .map2-stage.current{
+    background:linear-gradient(135deg,#efe9ff,#f3edff); border-color:#a98cf0;
+    box-shadow:0 0 0 1px #a98cf0 inset, 0 6px 16px rgba(140,100,240,.25);
+  }
+  .map2-stage .icon{ width:64px; height:64px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#efe7d2; }
+  .map2-stage .name{ font-size:17px; font-weight:800; color:#2b2420; }
+  .map2-stage.current .name{ color:#3a1f8f; }
+  .map2-stage .name small{ font-weight:600; opacity:.65; font-size:12px; }
+  .map2-stage .desc{ font-size:12.5px; color:#7c6f52; margin-top:2px; }
+  .map2-stage .arrow{ font-size:22px; color:#a98cf0; font-weight:900; flex-shrink:0; }
+  .map2-profile{ display:flex; align-items:center; gap:16px; }
+  .map2-avatar-ring{
+    width:96px; height:96px; border-radius:50%; overflow:hidden; flex-shrink:0;
+    border:3px solid #d9b25b; box-shadow:0 0 0 4px #fff, 0 4px 10px rgba(120,90,40,.2); background:#f1e8d0;
+  }
+  .map2-profile-info{ flex:1; min-width:0; }
+  .map2-name{ font-size:21px; font-weight:900; color:#241e3a; }
+  .map2-title-pill{ background:#f1e2b8; color:#8a6d2f; border-radius:999px; padding:4px 12px; font-size:12px; font-weight:700; margin-left:8px; }
+  .map2-shield-row{ display:flex; align-items:center; gap:6px; margin-top:10px; color:#3a5aa8; font-weight:700; font-size:14px; }
+  .map2-bar-wrap{ display:flex; align-items:center; gap:8px; margin-top:6px; }
+  .map2-bar-track{ background:#e7e0cc; border-radius:999px; height:12px; overflow:hidden; flex:1; }
+  .map2-bar-fill{ height:100%; border-radius:999px; background:linear-gradient(90deg,#5b8def,#7fb2ff); }
+  .map2-stats{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+  .map2-stat{ background:#fffdf7; border:1px solid #e2d3a8; border-radius:14px; padding:14px; text-align:center; margin-bottom:0; }
+  .map2-stat .ic{ font-size:26px; }
+  .map2-stat .num{ font-size:24px; font-weight:900; color:#2b2420; margin-top:2px; }
+  .map2-stat .lbl{ font-size:12px; color:#8a6d2f; }
+  .map2-quote{ display:flex; align-items:center; gap:14px; }
+  .map2-quote .portrait{ width:100px; height:130px; border-radius:12px; overflow:hidden; flex-shrink:0; }
+  .map2-quote .bubble{
+    flex:1; background:#fdfbf3; border:1px solid #e2d3a8; border-radius:14px; padding:12px 14px;
+    color:#3a2e1a; font-size:13.5px; line-height:1.6;
+  }
+  .map2-buttons{ display:grid; grid-template-columns:1fr 1fr 1.3fr; gap:8px; }
+  .map2-btn{
+    background:#fdfbf3; border:1px solid #e2d3a8; border-radius:10px; color:#2b2420; font-weight:700; font-size:12.5px;
+    padding:12px 6px;
+  }
+  .map2-btn-red{ background:linear-gradient(135deg,#7a1f22,#5a1518); border:1px solid #c9a15a; color:#f3e6c8; }
   @media print{
     body *{ visibility:hidden; }
     .worksheet-paper, .worksheet-paper *{ visibility:visible; }
@@ -1026,48 +1087,56 @@ function renderMap(){
   const s = Orchestrator.state;
   const cleared = s.clearedStages.filter(Boolean).length;
   mount(`
-    <div class="map-ornate card">
-      <div class="map-title">◆ 선사시대 지도 ◆</div>
-      <div class="map-profile-row">
-        <div class="map-avatar-ring">${Orchestrator.avatarImgHtml()}</div>
-        <div class="status-col">
-          <div><b>${s.nickname}</b> <span class="pill">${Orchestrator.rank()}</span> ${Orchestrator.petEmoji()}</div>
-          <div class="status-mini">🛡️ 보호막 Lv.${s.barrierLevel} · ${s.barrierGauge}/100</div>
-          <div class="bar-track"><div class="bar-fill" style="width:${s.barrierGauge}%;background:var(--exp);box-shadow:0 0 8px rgba(69,213,244,.6);"></div></div>
-        </div>
-        <div class="status-col" style="max-width:120px;text-align:right;">
-          <div class="status-mini">🍖 고기 ${s.meat}</div>
-          <div class="status-mini">🗺️ ${cleared}/${STAGES.length} 클리어</div>
-        </div>
+    <div class="map2-wrap">
+      <div class="map2-title-row">
+        <span class="map2-title"><span class="dia">◇</span>선사시대 지도<span class="dia">◇</span></span>
       </div>
-
-      <div class="map-quote">
-        <div class="sejong-portrait small">${sejongImgHtml()}</div>
-        <p style="margin:0;font-size:13px;">"보호막이 흔들리고 있구나... 문제를 풀어 고기를 모아다오!"</p>
-      </div>
-
-      <div class="map-divider">시대를 선택해 악령을 물리치세요</div>
-      ${STAGES.map((stage, idx)=>{
-        const locked = idx > 0 && !s.clearedStages[idx-1];
-        const isCleared = s.clearedStages[idx];
-        const current = !locked && !isCleared;
-        return `
-        <div class="stage-row ${locked?'locked':''} ${current?'current':''}" ${locked?'':`onclick="Harness.safeRun(()=>StoryAgent.stageIntro(${idx}))"`}>
-          <div class="stage-icon-tile">${ghostImgHtml(idx)}</div>
-          <div class="info">
-            <div><b>${stage.name}</b> <small class="tag">(${stage.tag})</small></div>
-            <small class="tag">${locked ? '🔒 이전 시대를 클리어하면 열려요' : (isCleared ? stage.ghostName + ' 격퇴 완료!' : stage.ghostName + '이(가) 기다리고 있어요')}</small>
+      <div class="map2-grid">
+        <div class="map2-card">
+          <div class="map2-left-header"><span class="dia">◇</span>시대를 선택해 악령을 물리치세요<span class="dia">◇</span></div>
+          ${STAGES.map((stage, idx)=>{
+            const locked = idx > 0 && !s.clearedStages[idx-1];
+            const isCleared = s.clearedStages[idx];
+            const current = !locked && !isCleared;
+            return `
+            <div class="map2-stage ${locked?'locked':''} ${current?'current':''}" ${locked?'':`onclick="Harness.safeRun(()=>StoryAgent.stageIntro(${idx}))"`}>
+              <div class="icon">${ghostImgHtml(idx)}</div>
+              <div style="flex:1;min-width:0;">
+                <div class="name">${stage.name} <small>(${stage.tag})</small></div>
+                <div class="desc">${locked ? '🔒 이전 시대를 클리어하면 열려요' : (isCleared ? stage.ghostName + ' 격퇴 완료!' : stage.ghostName + '이(가) 기다리고 있어요')}</div>
+              </div>
+              ${isCleared ? '<span class="badge-clear">CLEAR</span>' : (locked ? '' : '<span class="arrow">›</span>')}
+            </div>`;
+          }).join('')}
+        </div>
+        <div>
+          <div class="map2-card map2-profile">
+            <div class="map2-avatar-ring">${Orchestrator.avatarImgHtml()}</div>
+            <div class="map2-profile-info">
+              <span class="map2-name">${s.nickname}</span><span class="map2-title-pill">${Orchestrator.rank()}</span> ${Orchestrator.petEmoji()}
+              <div class="map2-shield-row">🛡️ 보호막 Lv.${s.barrierLevel}</div>
+              <div class="map2-bar-wrap">
+                <div class="map2-bar-track"><div class="map2-bar-fill" style="width:${s.barrierGauge}%;"></div></div>
+                <small style="color:#8a6d2f;font-weight:700;">${s.barrierGauge}/100</small>
+              </div>
+            </div>
           </div>
-          ${isCleared ? '<span class="badge-clear">CLEAR</span>' : (locked ? '' : '<span class="stage-arrow">›</span>')}
-        </div>`;
-      }).join('')}
-
-      <button class="btn-gold mt14" onclick="Harness.safeRun(renderDaily)">📅 일일 임무</button>
-      <div class="btn-row mt8">
-        <button class="btn-royal" onclick="Harness.safeRun(renderCharacterSelect)">🧝 캐릭터 변경</button>
-        <button class="btn-royal" onclick="Harness.safeRun(renderStory)">📖 이야기 다시보기</button>
+          <div class="map2-stats">
+            <div class="map2-stat"><div class="ic">🍖</div><div class="num">${s.meat}</div><div class="lbl">고기</div></div>
+            <div class="map2-stat"><div class="ic">📘</div><div class="num">${cleared}/${STAGES.length}</div><div class="lbl">시대 클리어</div></div>
+          </div>
+          <div class="map2-card map2-quote">
+            <div class="portrait">${sejongImgHtml()}</div>
+            <div class="bubble">"보호막이 흔들리고 있구나... 문제를 풀어 고기를 모아다오!"</div>
+          </div>
+          <div class="map2-buttons">
+            <button class="map2-btn" onclick="Harness.safeRun(renderCharacterSelect)">🧝 캐릭터 변경</button>
+            <button class="map2-btn" onclick="Harness.safeRun(renderStory)">📖 이야기 다시보기</button>
+            <button class="map2-btn map2-btn-red" onclick="Harness.safeRun(AuthAgent.logout)">🚪 다른 닉네임으로 시작</button>
+          </div>
+          <button class="btn-gold mt8" onclick="Harness.safeRun(renderDaily)">📅 일일 임무</button>
+        </div>
       </div>
-      <button class="btn-royal-red mt8" onclick="Harness.safeRun(AuthAgent.logout)">🚪 다른 닉네임으로 시작</button>
     </div>
   `, { nav:'map' });
 }
