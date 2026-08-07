@@ -160,66 +160,6 @@
   .worksheet-answers.show{ display:block; }
   .worksheet-answers ol{ padding-left:20px; }
 
-  /* ===== 메인(지도) 화면 — 크림/골드 전통 테마 ===== */
-  .map2-wrap{
-    background:#f7f1e2; border:1px solid #d8c9a0; border-radius:20px; padding:22px;
-    box-shadow:0 10px 30px rgba(120,90,40,.12); margin-bottom:16px;
-  }
-  .map2-title-row{ text-align:center; margin-bottom:18px; }
-  .map2-title{ font-size:30px; font-weight:900; color:#2b2420; letter-spacing:1px; }
-  .map2-title .dia{ color:#c9a15a; font-size:18px; margin:0 10px; }
-  .map2-grid{ display:grid; grid-template-columns:1.05fr 1fr; gap:18px; align-items:start; }
-  @media (max-width:760px){ .map2-grid{ grid-template-columns:1fr; } }
-  .map2-card{
-    background:#fffdf7; border:1px solid #e2d3a8; border-radius:16px; padding:16px;
-    box-shadow:0 4px 14px rgba(120,90,40,.08); margin-bottom:14px;
-  }
-  .map2-left-header{ text-align:center; color:#8a6d2f; font-weight:700; font-size:14px; margin-bottom:14px; }
-  .map2-left-header .dia{ color:#c9a15a; margin:0 8px; }
-  .map2-stage{
-    display:flex; align-items:center; gap:14px; background:#fdfbf3; border:1px solid #e6dab8; border-radius:14px;
-    padding:12px 14px; margin-bottom:12px;
-  }
-  .map2-stage.locked{ opacity:.55; }
-  .map2-stage.current{
-    background:linear-gradient(135deg,#efe9ff,#f3edff); border-color:#a98cf0;
-    box-shadow:0 0 0 1px #a98cf0 inset, 0 6px 16px rgba(140,100,240,.25);
-  }
-  .map2-stage .icon{ width:64px; height:64px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#efe7d2; }
-  .map2-stage .name{ font-size:17px; font-weight:800; color:#2b2420; }
-  .map2-stage.current .name{ color:#3a1f8f; }
-  .map2-stage .name small{ font-weight:600; opacity:.65; font-size:12px; }
-  .map2-stage .desc{ font-size:12.5px; color:#7c6f52; margin-top:2px; }
-  .map2-stage .arrow{ font-size:22px; color:#a98cf0; font-weight:900; flex-shrink:0; }
-  .map2-profile{ display:flex; align-items:center; gap:16px; }
-  .map2-avatar-ring{
-    width:96px; height:96px; border-radius:50%; overflow:hidden; flex-shrink:0;
-    border:3px solid #d9b25b; box-shadow:0 0 0 4px #fff, 0 4px 10px rgba(120,90,40,.2); background:#f1e8d0;
-  }
-  .map2-profile-info{ flex:1; min-width:0; }
-  .map2-name{ font-size:21px; font-weight:900; color:#241e3a; }
-  .map2-title-pill{ background:#f1e2b8; color:#8a6d2f; border-radius:999px; padding:4px 12px; font-size:12px; font-weight:700; margin-left:8px; }
-  .map2-shield-row{ display:flex; align-items:center; gap:6px; margin-top:10px; color:#3a5aa8; font-weight:700; font-size:14px; }
-  .map2-bar-wrap{ display:flex; align-items:center; gap:8px; margin-top:6px; }
-  .map2-bar-track{ background:#e7e0cc; border-radius:999px; height:12px; overflow:hidden; flex:1; }
-  .map2-bar-fill{ height:100%; border-radius:999px; background:linear-gradient(90deg,#5b8def,#7fb2ff); }
-  .map2-stats{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
-  .map2-stat{ background:#fffdf7; border:1px solid #e2d3a8; border-radius:14px; padding:14px; text-align:center; margin-bottom:0; }
-  .map2-stat .ic{ font-size:26px; }
-  .map2-stat .num{ font-size:24px; font-weight:900; color:#2b2420; margin-top:2px; }
-  .map2-stat .lbl{ font-size:12px; color:#8a6d2f; }
-  .map2-quote{ display:flex; align-items:center; gap:14px; }
-  .map2-quote .portrait{ width:100px; height:130px; border-radius:12px; overflow:hidden; flex-shrink:0; }
-  .map2-quote .bubble{
-    flex:1; background:#fdfbf3; border:1px solid #e2d3a8; border-radius:14px; padding:12px 14px;
-    color:#3a2e1a; font-size:13.5px; line-height:1.6;
-  }
-  .map2-buttons{ display:grid; grid-template-columns:1fr 1fr 1.3fr; gap:8px; }
-  .map2-btn{
-    background:#fdfbf3; border:1px solid #e2d3a8; border-radius:10px; color:#2b2420; font-weight:700; font-size:12.5px;
-    padding:12px 6px;
-  }
-  .map2-btn-red{ background:linear-gradient(135deg,#7a1f22,#5a1518); border:1px solid #c9a15a; color:#f3e6c8; }
   @media print{
     body *{ visibility:hidden; }
     .worksheet-paper, .worksheet-paper *{ visibility:visible; }
@@ -271,6 +211,43 @@
   .weapon-tag{ color:var(--gold); font-size:11px; }
   .login-banner{ border-radius:18px; overflow:hidden; margin-bottom:14px; box-shadow:0 8px 24px rgba(0,0,0,.4); border:2px solid #4a3690; }
   .login-banner input#nicknameInput::placeholder{ color:#8a7355; font-weight:600; }
+
+  .dolmen-track{
+    position:relative; width:100%; height:34px; background:#ece6fb; border-radius:999px;
+    margin:14px 0; overflow:hidden; border:2px solid #d8cdfa;
+  }
+  .dolmen-zone{ position:absolute; top:0; bottom:0; background:rgba(46,204,113,.35); border-left:2px solid var(--good); border-right:2px solid var(--good); }
+  .dolmen-marker{ position:absolute; top:2px; bottom:2px; width:10px; background:var(--accent); border-radius:4px; box-shadow:0 0 8px rgba(125,95,255,.6); transform:translateX(-50%); }
+  .dolmen-stack{ display:flex; flex-direction:column-reverse; align-items:center; gap:4px; min-height:160px; justify-content:flex-start; margin-bottom:6px; }
+  .dolmen-stone{ width:130px; height:26px; border-radius:6px; background:linear-gradient(160deg,#9a8b7a,#6d6154); border:2px solid #55493c; box-shadow:0 3px 6px rgba(0,0,0,.25); }
+  .dolmen-stone.cap{ width:160px; height:20px; background:linear-gradient(160deg,#c9bda8,#9a8b7a); }
+
+  .dig-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:10px 0 4px; }
+  .dig-tile{
+    aspect-ratio:1; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-size:30px; cursor:pointer; border:2px solid #8a6f45;
+    background:linear-gradient(160deg,#d8c39a,#b89b6a); transition:transform .08s;
+  }
+  .dig-tile:active{ transform:scale(.94); }
+  .dig-tile.dug{ cursor:default; background:linear-gradient(160deg,#f3eadb,#e4d6b8); }
+  .dig-tile.correct{ border-color:var(--good); }
+  .dig-tile.wrong{ border-color:var(--bad); }
+  .dig-tile.active{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(125,95,255,.3); }
+  .dig-tile.disabled{ opacity:.5; cursor:default; }
+
+  .npc-portrait{
+    width:76px; height:76px; border-radius:50%; margin:0 auto; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:38px;
+    background:radial-gradient(circle at 50% 35%, #fff, #ece4ff 75%);
+    border:3px solid var(--gold1); box-shadow:0 0 10px rgba(217,183,106,.35), 0 0 0 3px rgba(140,108,255,.15);
+  }
+  .npc-portrait.lg{ width:128px; height:128px; font-size:64px; border-width:4px; }
+  .npc-name-plate{ text-align:center; margin-top:10px; }
+  .npc-name-plate .nm{ font-size:17px; font-weight:800; color:#2b2140; }
+  .npc-role-tag{
+    display:inline-block; margin-top:4px; background:linear-gradient(135deg,#7d5fff,#5433c7);
+    color:#fff; border-radius:999px; padding:3px 12px; font-size:11px; font-weight:700;
+  }
 
   /* ===== 플레이 화면(퀴즈/전투) 라이트 테마 ===== */
   body.light-mode{ background:#f7f6fb; color:#2b2140; }
@@ -375,6 +352,14 @@ const AVATARS = [
   { id:'f_pirate', gender:'f', name:'여자 해적', file:'transparent/norm/여자 해적.png',   line:'"보물을 찾듯 답을 찾아 나서죠!"' },
 ];
 
+const CLASS_SKILLS = {
+  sword:  { name:'회심의 일격', emoji:'⚔️', desc:'온 힘을 실어 크게 베어 강력한 피해를 입혀요.' },
+  mage:   { name:'화염구',     emoji:'🔥', desc:'화염 마법을 날려 큰 피해를 입혀요.' },
+  archer: { name:'연속 사격',   emoji:'🏹', desc:'화살을 연달아 세 발 쏘아 여러 번 피해를 입혀요.' },
+  rogue:  { name:'그림자 기습', emoji:'🗡️', desc:'재빠르게 기습해 피해를 입히고 시간도 벌어줘요.' },
+  pirate: { name:'함포 사격',   emoji:'💣', desc:'대포를 발사해요. 운이 좋으면 대박 피해!' },
+};
+
 const WEAPONS = [
   { id:'stoneaxe', name:'돌도끼', emoji:'🪓', price:100, dmg:1 },
   { id:'spear',    name:'나무창', emoji:'🔱', price:180, dmg:2 },
@@ -422,6 +407,16 @@ const CONSUMABLES = [
   { id:'c_potion',    name:'응급 치료약', emoji:'🧪', price:90,  restore:38 },
 ];
 
+const DOLMEN_LEVELS = [
+  { speed:38, zoneWidth:30 },
+  { speed:46, zoneWidth:26 },
+  { speed:55, zoneWidth:22 },
+  { speed:64, zoneWidth:18 },
+  { speed:75, zoneWidth:14 },
+];
+
+const ARTIFACT_ICONS = ['🏺','🦴','🐚','📿','🪨','🗿'];
+
 const RANKS = [
   { min:0,    title:'견습 탐험가' },
   { min:80,   title:'부족의 전사' },
@@ -430,6 +425,14 @@ const RANKS = [
   { min:650,  title:'성주' },
   { min:1000, title:'대왕의 특사' },
   { min:1500, title:'역사의 수호자' },
+];
+
+const TOWER_TITLES = [
+  { floor:3,  title:'탑의 첫걸음' },
+  { floor:6,  title:'탑의 도전자' },
+  { floor:10, title:'탑의 등반가' },
+  { floor:15, title:'탑의 정복자' },
+  { floor:20, title:'전설의 수호자' },
 ];
 
 const STAGES = [
@@ -507,6 +510,41 @@ const STAGES = [
   },
 ];
 
+const VILLAGES = [
+  {
+    npcName:'돌쇠', npcEmoji:'🏹', npcRole:'구석기 사냥꾼', questTarget:4, questReward:50,
+    greetings:[
+      '어흠, 낯선 여행자로군! 나는 이 구석기 마을에 사는 사냥꾼 돌쇠라고 하네.',
+      '우리는 먹을 것을 찾아 이곳저곳을 옮겨 다니며 동굴이나 막집에서 산다네.',
+      '요즘 동굴 속 악령 때문에 마을이 뒤숭숭해... 자네가 이 시대의 지식을 지켜준다면 큰 도움이 될 걸세!',
+    ],
+  },
+  {
+    npcName:'씨앗이', npcEmoji:'🌾', npcRole:'신석기 농부', questTarget:4, questReward:60,
+    greetings:[
+      '안녕하세요, 여행자님! 저는 신석기 마을의 농부 씨앗이예요.',
+      '저희는 이제 농사를 지으며 움집에 정착해서 살고 있답니다.',
+      '빗살무늬 토기에 곡식을 저장하는데, 요즘 토기의 악령이 자꾸 훼방을 놓네요. 도와주실 수 있나요?',
+    ],
+  },
+  {
+    npcName:'청동이', npcEmoji:'🔨', npcRole:'청동기 대장장이', questTarget:5, questReward:80,
+    greetings:[
+      '왔는가, 여행자! 나는 청동기 마을의 대장장이 청동이라네.',
+      '비파형동검과 반달돌칼을 만드느라 늘 바쁘지. 고인돌을 세우는 일도 큰일이야.',
+      '고인돌의 악령이 우리 마을의 질서를 어지럽히고 있어. 자네의 지식이 필요하네!',
+    ],
+  },
+  {
+    npcName:'쇠돌 선생', npcEmoji:'📜', npcRole:'철기 학자', questTarget:5, questReward:100,
+    greetings:[
+      '반갑네, 여행자. 나는 철기 마을의 학자 쇠돌이라 하네.',
+      '철제 농기구 덕분에 농사가 크게 늘고, 중국과의 교류도 활발해졌지.',
+      '명도전의 악령이 우리의 마지막 보호막까지 노리고 있다네. 자네가 나서 주게!',
+    ],
+  },
+];
+
 function ensureDaily(state){
   const today = new Date().toISOString().slice(0,10);
   if(!state.daily || state.daily.date !== today){
@@ -547,6 +585,17 @@ const Harness = {
     if(typeof state.storySeen !== 'boolean') state.storySeen = false;
     state.bossKills = Math.max(0, Math.floor(state.bossKills || 0));
     if(!Array.isArray(state.claimedAchievements)) state.claimedAchievements = [];
+    if(!Array.isArray(state.stageStats) || state.stageStats.length !== STAGES.length){
+      state.stageStats = STAGES.map(()=>({ attempted:0, correct:0 }));
+    }
+    state.totalAnswered = Math.max(0, Math.floor(state.totalAnswered || 0));
+    state.longestStreak = Math.max(0, Math.floor(state.longestStreak || 0));
+    if(!Array.isArray(state.activityLog)) state.activityLog = [];
+    state.towerBestFloor = Math.max(0, Math.floor(state.towerBestFloor || 0));
+    if(!Array.isArray(state.towerUnlockedTitles)) state.towerUnlockedTitles = [];
+    if(!Array.isArray(state.villageQuests) || state.villageQuests.length !== VILLAGES.length){
+      state.villageQuests = VILLAGES.map(()=>({ active:false, progress:0, target:0, reward:0, completedCount:0 }));
+    }
     ensureDaily(state);
     return state;
   },
@@ -588,6 +637,10 @@ const Orchestrator = {
       ownedBarrierUpgrades:[],
       correctFirstTry:0, correctTotal:0,
       bossKills:0, claimedAchievements:[],
+      stageStats: STAGES.map(()=>({ attempted:0, correct:0 })),
+      totalAnswered:0, longestStreak:0, activityLog:[],
+      towerBestFloor:0, towerUnlockedTitles:[],
+      villageQuests: VILLAGES.map(()=>({ active:false, progress:0, target:0, reward:0, completedCount:0 })),
       daily:null,
     });
   },
@@ -603,6 +656,8 @@ const Orchestrator = {
   },
   avatarInfo(){ return AVATARS.find(a=>a.id===this.state.avatar) || AVATARS[0]; },
   avatarImgHtml(){ return avatarImgHtml(this.avatarInfo()); },
+  avatarClass(){ return this.avatarInfo().id.split('_')[1]; },
+  classSkill(){ return CLASS_SKILLS[this.avatarClass()]; },
   weaponDmg(){
     const w = WEAPONS.find(w=>w.id===this.state.equippedWeapon);
     return w ? w.dmg : 0;
@@ -684,6 +739,36 @@ const StoryAgent = {
 };
 
 /* =========================================================
+   AGENT: 마을 및 NPC 퀘스트
+========================================================= */
+let villageChat = null; // {villageIdx, step}
+const VillageAgent = {
+  enter(idx){ villageChat = null; renderVillage(idx); },
+  talk(idx){ villageChat = { villageIdx:idx, step:0 }; renderVillage(idx); },
+  nextLine(){ if(!villageChat) return; villageChat.step += 1; renderVillage(villageChat.villageIdx); },
+  acceptQuest(idx){
+    const v = VILLAGES[idx];
+    const q = Orchestrator.state.villageQuests[idx];
+    if(q.active) return;
+    q.active = true; q.progress = 0; q.target = v.questTarget; q.reward = v.questReward;
+    Orchestrator.save();
+    toast(`📜 퀘스트 수락: ${STAGES[idx].name} 문제 ${v.questTarget}개 맞히기!`);
+    renderVillage(idx);
+  },
+  claimQuest(idx){
+    const q = Orchestrator.state.villageQuests[idx];
+    if(!q.active || q.progress < q.target) return;
+    const reward = q.reward;
+    Orchestrator.earnMeat(reward);
+    q.completedCount += 1;
+    q.active = false; q.progress = 0; q.target = 0; q.reward = 0;
+    Orchestrator.save();
+    toast(`🎉 퀘스트 완료! 🍖 고기 +${reward} 획득!`);
+    renderVillage(idx);
+  },
+};
+
+/* =========================================================
    AGENT: 퀴즈 및 전투
 ========================================================= */
 let quizSession = null; // {stageIdx, queue:[qIdx...], selected, showExplain, wasWrongThisQ, lastReward, lastCorrect}
@@ -714,18 +799,25 @@ const QuizAgent = {
     const wasWrongBefore = !!note;
     const daily = ensureDaily(Orchestrator.state);
     daily.questionsAnswered += 1;
+    Orchestrator.state.totalAnswered += 1;
+    const stat = Orchestrator.state.stageStats[quizSession.stageIdx];
+    stat.attempted += 1;
     if(correct){
       const reward = quizSession.wasWrongThisQ ? 8 : 15;
       Orchestrator.earnMeat(reward);
       Orchestrator.state.correctTotal += 1;
+      stat.correct += 1;
       if(!quizSession.wasWrongThisQ) Orchestrator.state.correctFirstTry += 1;
       Orchestrator.state.barrierGauge = Math.min(100, Orchestrator.state.barrierGauge + 4);
       if(note) note.cleared = true;
       if(wasWrongBefore) daily.wrongReviewed += 1;
       daily.currentStreak += 1;
       daily.bestStreak = Math.max(daily.bestStreak, daily.currentStreak);
+      Orchestrator.state.longestStreak = Math.max(Orchestrator.state.longestStreak, daily.currentStreak);
       quizSession.lastReward = reward;
       quizSession.queue.shift();
+      const vq = Orchestrator.state.villageQuests[quizSession.stageIdx];
+      if(vq && vq.active && vq.progress < vq.target) vq.progress += 1;
     } else {
       const dmg = Math.max(2, 8 - Orchestrator.state.barrierLevel);
       Orchestrator.state.barrierGauge = Math.max(15, Orchestrator.state.barrierGauge - dmg);
@@ -734,6 +826,10 @@ const QuizAgent = {
       daily.currentStreak = 0;
       quizSession.wasWrongThisQ = true;
     }
+    Orchestrator.state.activityLog.unshift({
+      date: new Date().toISOString().slice(0,10), stage: stage.name, question: q.q, correct,
+    });
+    if(Orchestrator.state.activityLog.length > 40) Orchestrator.state.activityLog.length = 40;
     Orchestrator.save();
     renderQuiz();
   },
@@ -889,7 +985,7 @@ let battle = null; // {stageIdx, ghostHp, ghostMax, timeLeft, timerId, over, won
 const BattleAgent = {
   start(stageIdx){
     if(battle && battle.timerId) clearInterval(battle.timerId);
-    battle = { stageIdx, ghostHp:32, ghostMax:32, timeLeft:14, timerId:null, over:false, won:false };
+    battle = { stageIdx, ghostHp:32, ghostMax:32, timeLeft:14, timerId:null, over:false, won:false, skillUsed:false };
     renderBattle();
     battle.timerId = setInterval(()=>{
       battle.timeLeft -= 1;
@@ -901,6 +997,33 @@ const BattleAgent = {
     if(!battle || battle.over) return;
     const dmg = 2 + Math.floor(Math.random()*4) + Orchestrator.weaponDmg();
     battle.ghostHp = Math.max(0, battle.ghostHp - dmg);
+    if(battle.ghostHp === 0){ BattleAgent.finish(true); return; }
+    renderBattle();
+  },
+  useSkill(){
+    if(!battle || battle.over || battle.skillUsed) return;
+    const cls = Orchestrator.avatarClass();
+    const skill = CLASS_SKILLS[cls];
+    if(!skill) return;
+    const wdmg = Orchestrator.weaponDmg();
+    let dmg = 0, timeBonus = 0;
+    if(cls === 'sword'){
+      dmg = 12 + wdmg * 2;
+    } else if(cls === 'mage'){
+      dmg = 10 + wdmg;
+    } else if(cls === 'archer'){
+      for(let i=0; i<3; i++) dmg += 2 + Math.floor(Math.random()*4);
+      dmg += wdmg;
+    } else if(cls === 'rogue'){
+      dmg = 6 + wdmg;
+      timeBonus = 4;
+    } else if(cls === 'pirate'){
+      dmg = 4 + wdmg + Math.floor(Math.random()*11);
+    }
+    battle.skillUsed = true;
+    battle.ghostHp = Math.max(0, battle.ghostHp - dmg);
+    if(timeBonus) battle.timeLeft += timeBonus;
+    toast(`${skill.emoji} ${skill.name}! ${dmg} 피해${timeBonus ? ` + ${timeBonus}초 확보!` : '!'}`);
     if(battle.ghostHp === 0){ BattleAgent.finish(true); return; }
     renderBattle();
   },
@@ -920,6 +1043,217 @@ const BattleAgent = {
     renderBattle();
   },
   retry(){ BattleAgent.start(battle.stageIdx); }
+};
+
+/* =========================================================
+   AGENT: 미니게임 (고인돌 쌓기 — 타이밍 게임)
+========================================================= */
+let dolmenGame = null; // {stoneIdx,total,misses,maxMisses,speed,zoneStart,zoneWidth,pos,dir,lastTs,rafId,over,won}
+const DolmenAgent = {
+  start(){
+    if(dolmenGame && dolmenGame.rafId) cancelAnimationFrame(dolmenGame.rafId);
+    dolmenGame = { stoneIdx:0, total:DOLMEN_LEVELS.length, misses:0, maxMisses:3, pos:0, dir:1, lastTs:null, rafId:null, over:false, won:false };
+    DolmenAgent._setupStone();
+    renderDolmenGame();
+    dolmenGame.rafId = requestAnimationFrame(DolmenAgent._loop);
+  },
+  _setupStone(){
+    const lvl = DOLMEN_LEVELS[dolmenGame.stoneIdx];
+    dolmenGame.speed = lvl.speed;
+    dolmenGame.zoneWidth = lvl.zoneWidth;
+    dolmenGame.zoneStart = Math.random() * (100 - lvl.zoneWidth);
+    dolmenGame.pos = 0; dolmenGame.dir = 1; dolmenGame.lastTs = null;
+  },
+  _loop(ts){
+    if(!dolmenGame || dolmenGame.over) return;
+    if(dolmenGame.lastTs == null) dolmenGame.lastTs = ts;
+    const dt = ts - dolmenGame.lastTs;
+    dolmenGame.lastTs = ts;
+    dolmenGame.pos += dolmenGame.dir * dolmenGame.speed * (dt/1000);
+    if(dolmenGame.pos >= 100){ dolmenGame.pos = 100; dolmenGame.dir = -1; }
+    else if(dolmenGame.pos <= 0){ dolmenGame.pos = 0; dolmenGame.dir = 1; }
+    const marker = document.getElementById('dolmenMarker');
+    if(marker) marker.style.left = dolmenGame.pos + '%';
+    dolmenGame.rafId = requestAnimationFrame(DolmenAgent._loop);
+  },
+  attempt(){
+    if(!dolmenGame || dolmenGame.over) return;
+    const inZone = dolmenGame.pos >= dolmenGame.zoneStart && dolmenGame.pos <= dolmenGame.zoneStart + dolmenGame.zoneWidth;
+    if(inZone){
+      dolmenGame.stoneIdx += 1;
+      if(dolmenGame.stoneIdx >= dolmenGame.total){ DolmenAgent.finish(true); return; }
+      DolmenAgent._setupStone();
+      renderDolmenGame();
+    } else {
+      dolmenGame.misses += 1;
+      if(dolmenGame.misses >= dolmenGame.maxMisses){ DolmenAgent.finish(false); return; }
+      toast('❌ 타이밍이 어긋났어요! 다시 도전!');
+      dolmenGame.pos = 0; dolmenGame.dir = 1;
+      renderDolmenGame();
+    }
+  },
+  finish(won){
+    dolmenGame.over = true; dolmenGame.won = won;
+    if(dolmenGame.rafId) cancelAnimationFrame(dolmenGame.rafId);
+    if(won){
+      Orchestrator.earnMeat(40);
+      Orchestrator.save();
+    }
+    renderDolmenGame();
+  },
+  giveUp(){
+    if(dolmenGame && dolmenGame.rafId) cancelAnimationFrame(dolmenGame.rafId);
+    dolmenGame = null;
+    renderTrainHome();
+  }
+};
+
+/* =========================================================
+   AGENT: 미니게임 (조개무지 발굴 게임 — 퀴즈 발굴)
+========================================================= */
+let shellGame = null; // {spots:[{state,correct,artifact}], queue:[{stageIdx,qIdx}], activeIdx, selected, showExplain, correctCount, total, meatEarned, over}
+const ShellDigAgent = {
+  start(){
+    const pool = [];
+    STAGES.forEach((st,si)=> st.questions.forEach((_,qi)=> pool.push({stageIdx:si, qIdx:qi})));
+    for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+    const total = 6;
+    shellGame = {
+      spots: Array.from({length:total}, ()=>({ state:'buried', correct:null, artifact:null })),
+      queue: pool.slice(0, total),
+      activeIdx:null, selected:null, showExplain:false, correctCount:0, total, meatEarned:0, over:false,
+    };
+    renderShellGame();
+  },
+  dig(spotIdx){
+    if(!shellGame || shellGame.over || shellGame.activeIdx != null) return;
+    if(shellGame.spots[spotIdx].state !== 'buried') return;
+    shellGame.activeIdx = spotIdx;
+    shellGame.selected = null; shellGame.showExplain = false;
+    renderShellGame();
+  },
+  pick(choiceIdx){
+    if(shellGame.showExplain) return;
+    shellGame.selected = choiceIdx;
+    renderShellGame();
+  },
+  confirm(){
+    if(shellGame.selected == null || shellGame.showExplain) return;
+    const spotIdx = shellGame.activeIdx;
+    const { stageIdx, qIdx } = shellGame.queue[spotIdx];
+    const q = STAGES[stageIdx].questions[qIdx];
+    const correct = shellGame.selected === q.answer;
+    shellGame.showExplain = true;
+    shellGame.lastCorrect = correct;
+
+    const spot = shellGame.spots[spotIdx];
+    spot.state = 'dug';
+    spot.correct = correct;
+    if(correct){
+      spot.artifact = ARTIFACT_ICONS[Math.floor(Math.random()*ARTIFACT_ICONS.length)];
+      shellGame.correctCount += 1;
+      shellGame.meatEarned += 15;
+      Orchestrator.earnMeat(15);
+    } else {
+      spot.artifact = '💔';
+    }
+    Orchestrator.save();
+    renderShellGame();
+  },
+  next(){
+    shellGame.activeIdx = null; shellGame.selected = null; shellGame.showExplain = false;
+    if(!shellGame.spots.some(s=>s.state==='buried')) shellGame.over = true;
+    renderShellGame();
+  },
+  exit(){ shellGame = null; renderTrainHome(); }
+};
+
+/* =========================================================
+   AGENT: 도전의 탑 (층마다 제한시간 + 오답 금지 서바이벌)
+========================================================= */
+let tower = null; // {floor,pool,poolIdx,qRef,selected,showExplain,lastCorrect,timeLimit,timeLeft,timerId,over,failed,timedOut,meatEarned,newTitle}
+const TowerAgent = {
+  _buildPool(){
+    const pool = [];
+    STAGES.forEach((st,si)=> st.questions.forEach((_,qi)=> pool.push({stageIdx:si, qIdx:qi})));
+    for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+    return pool;
+  },
+  start(){
+    if(tower && tower.timerId) clearInterval(tower.timerId);
+    tower = {
+      floor:1, pool:TowerAgent._buildPool(), poolIdx:0,
+      qRef:null, selected:null, showExplain:false, lastCorrect:null,
+      timeLimit:0, timeLeft:0, timerId:null,
+      over:false, failed:false, timedOut:false, meatEarned:0, newTitle:null,
+    };
+    TowerAgent._nextQuestion();
+  },
+  _nextQuestion(){
+    if(tower.timerId) clearInterval(tower.timerId);
+    if(tower.poolIdx >= tower.pool.length){ tower.pool = TowerAgent._buildPool(); tower.poolIdx = 0; }
+    tower.qRef = tower.pool[tower.poolIdx]; tower.poolIdx += 1;
+    tower.selected = null; tower.showExplain = false; tower.newTitle = null;
+    tower.timeLimit = Math.max(6, 21 - tower.floor);
+    tower.timeLeft = tower.timeLimit;
+    renderTower();
+    tower.timerId = setInterval(()=>{
+      tower.timeLeft -= 1;
+      if(tower.timeLeft <= 0){ TowerAgent._fail(true); return; }
+      renderTower();
+    }, 1000);
+  },
+  pick(choiceIdx){
+    if(!tower || tower.showExplain) return;
+    tower.selected = choiceIdx;
+    renderTower();
+  },
+  confirm(){
+    if(!tower || tower.selected == null || tower.showExplain) return;
+    if(tower.timerId) clearInterval(tower.timerId);
+    const { stageIdx, qIdx } = tower.qRef;
+    const q = STAGES[stageIdx].questions[qIdx];
+    const correct = tower.selected === q.answer;
+    tower.showExplain = true;
+    tower.lastCorrect = correct;
+    if(correct){
+      const reward = 10 + tower.floor;
+      tower.meatEarned += reward;
+      Orchestrator.earnMeat(reward);
+      if(tower.floor > Orchestrator.state.towerBestFloor) Orchestrator.state.towerBestFloor = tower.floor;
+      TowerAgent._checkTitles();
+      Orchestrator.save();
+    } else {
+      TowerAgent._fail(false);
+      return;
+    }
+    renderTower();
+  },
+  _fail(timedOut){
+    if(tower.timerId) clearInterval(tower.timerId);
+    tower.over = true; tower.failed = true; tower.timedOut = timedOut; tower.showExplain = true;
+    Orchestrator.save();
+    renderTower();
+  },
+  _checkTitles(){
+    TOWER_TITLES.forEach(t=>{
+      if(Orchestrator.state.towerBestFloor >= t.floor && !Orchestrator.state.towerUnlockedTitles.includes(t.floor)){
+        Orchestrator.state.towerUnlockedTitles.push(t.floor);
+        tower.newTitle = t.title;
+        toast(`🏵️ 새 칭호 [${t.title}] 획득!`);
+      }
+    });
+  },
+  next(){
+    if(!tower || !tower.showExplain || tower.over) return;
+    tower.floor += 1;
+    TowerAgent._nextQuestion();
+  },
+  exit(){
+    if(tower && tower.timerId) clearInterval(tower.timerId);
+    tower = null;
+    renderTrainHome();
+  }
 };
 
 /* =========================================================
@@ -946,6 +1280,7 @@ function renderBottomNav(active){
   const tabs = [
     { key:'map', label:'지도', ic:'🗺️', fn:'renderMap' },
     { key:'train', label:'훈련장', ic:'🎯', fn:'renderTrainHome' },
+    { key:'record', label:'학습기록', ic:'📊', fn:'renderLearningRecord' },
     { key:'shop', label:'상점', ic:'🛍️', fn:'renderShop' },
     { key:'equip', label:'착용', ic:'🎽', fn:'renderEquip' },
     { key:'achieve', label:'업적', ic:'🏆', fn:'renderAchievements' },
@@ -1087,56 +1422,67 @@ function renderMap(){
   const s = Orchestrator.state;
   const cleared = s.clearedStages.filter(Boolean).length;
   mount(`
-    <div class="map2-wrap">
-      <div class="map2-title-row">
-        <span class="map2-title"><span class="dia">◇</span>선사시대 지도<span class="dia">◇</span></span>
-      </div>
-      <div class="map2-grid">
-        <div class="map2-card">
-          <div class="map2-left-header"><span class="dia">◇</span>시대를 선택해 악령을 물리치세요<span class="dia">◇</span></div>
-          ${STAGES.map((stage, idx)=>{
-            const locked = idx > 0 && !s.clearedStages[idx-1];
-            const isCleared = s.clearedStages[idx];
-            const current = !locked && !isCleared;
-            return `
-            <div class="map2-stage ${locked?'locked':''} ${current?'current':''}" ${locked?'':`onclick="Harness.safeRun(()=>StoryAgent.stageIntro(${idx}))"`}>
-              <div class="icon">${ghostImgHtml(idx)}</div>
-              <div style="flex:1;min-width:0;">
-                <div class="name">${stage.name} <small>(${stage.tag})</small></div>
-                <div class="desc">${locked ? '🔒 이전 시대를 클리어하면 열려요' : (isCleared ? stage.ghostName + ' 격퇴 완료!' : stage.ghostName + '이(가) 기다리고 있어요')}</div>
-              </div>
-              ${isCleared ? '<span class="badge-clear">CLEAR</span>' : (locked ? '' : '<span class="arrow">›</span>')}
-            </div>`;
-          }).join('')}
+    <div class="map-ornate card">
+      <div class="map-title">◆ 선사시대 지도 ◆</div>
+      <div class="map-profile-row">
+        <div class="map-avatar-ring">${Orchestrator.avatarImgHtml()}</div>
+        <div class="status-col">
+          <div><b>${s.nickname}</b> <span class="pill">${Orchestrator.rank()}</span> ${Orchestrator.petEmoji()}</div>
+          <div class="status-mini">🛡️ 보호막 Lv.${s.barrierLevel} · ${s.barrierGauge}/100</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${s.barrierGauge}%;background:var(--exp);box-shadow:0 0 8px rgba(69,213,244,.6);"></div></div>
         </div>
-        <div>
-          <div class="map2-card map2-profile">
-            <div class="map2-avatar-ring">${Orchestrator.avatarImgHtml()}</div>
-            <div class="map2-profile-info">
-              <span class="map2-name">${s.nickname}</span><span class="map2-title-pill">${Orchestrator.rank()}</span> ${Orchestrator.petEmoji()}
-              <div class="map2-shield-row">🛡️ 보호막 Lv.${s.barrierLevel}</div>
-              <div class="map2-bar-wrap">
-                <div class="map2-bar-track"><div class="map2-bar-fill" style="width:${s.barrierGauge}%;"></div></div>
-                <small style="color:#8a6d2f;font-weight:700;">${s.barrierGauge}/100</small>
-              </div>
-            </div>
-          </div>
-          <div class="map2-stats">
-            <div class="map2-stat"><div class="ic">🍖</div><div class="num">${s.meat}</div><div class="lbl">고기</div></div>
-            <div class="map2-stat"><div class="ic">📘</div><div class="num">${cleared}/${STAGES.length}</div><div class="lbl">시대 클리어</div></div>
-          </div>
-          <div class="map2-card map2-quote">
-            <div class="portrait">${sejongImgHtml()}</div>
-            <div class="bubble">"보호막이 흔들리고 있구나... 문제를 풀어 고기를 모아다오!"</div>
-          </div>
-          <div class="map2-buttons">
-            <button class="map2-btn" onclick="Harness.safeRun(renderCharacterSelect)">🧝 캐릭터 변경</button>
-            <button class="map2-btn" onclick="Harness.safeRun(renderStory)">📖 이야기 다시보기</button>
-            <button class="map2-btn map2-btn-red" onclick="Harness.safeRun(AuthAgent.logout)">🚪 다른 닉네임으로 시작</button>
-          </div>
-          <button class="btn-gold mt8" onclick="Harness.safeRun(renderDaily)">📅 일일 임무</button>
+        <div class="status-col" style="max-width:120px;text-align:right;">
+          <div class="status-mini">🍖 고기 ${s.meat}</div>
+          <div class="status-mini">🗺️ ${cleared}/${STAGES.length} 클리어</div>
         </div>
       </div>
+
+      <div class="map-quote">
+        <div class="sejong-portrait small">${sejongImgHtml()}</div>
+        <p style="margin:0;font-size:13px;">"보호막이 흔들리고 있구나... 문제를 풀어 고기를 모아다오!"</p>
+      </div>
+
+      <div class="map-divider">시대를 선택해 악령을 물리치세요</div>
+      ${STAGES.map((stage, idx)=>{
+        const locked = idx > 0 && !s.clearedStages[idx-1];
+        const isCleared = s.clearedStages[idx];
+        const current = !locked && !isCleared;
+        return `
+        <div class="stage-row ${locked?'locked':''} ${current?'current':''}" ${locked?'':`onclick="Harness.safeRun(()=>StoryAgent.stageIntro(${idx}))"`}>
+          <div class="stage-icon-tile">${ghostImgHtml(idx)}</div>
+          <div class="info">
+            <div><b>${stage.name}</b> <small class="tag">(${stage.tag})</small></div>
+            <small class="tag">${locked ? '🔒 이전 시대를 클리어하면 열려요' : (isCleared ? stage.ghostName + ' 격퇴 완료!' : stage.ghostName + '이(가) 기다리고 있어요')}</small>
+          </div>
+          ${isCleared ? '<span class="badge-clear">CLEAR</span>' : (locked ? '' : '<span class="stage-arrow">›</span>')}
+        </div>`;
+      }).join('')}
+
+      <div class="map-divider">마을에 들러 NPC와 이야기해 보세요</div>
+      ${VILLAGES.map((village, idx)=>{
+        const locked = idx > 0 && !s.clearedStages[idx-1];
+        const vq = s.villageQuests[idx];
+        const questTag = locked ? '🔒 이전 시대를 클리어하면 열려요'
+          : !vq.active ? `${village.npcName}이(가) 기다리고 있어요`
+          : vq.progress >= vq.target ? '🎉 보상을 받아가세요!'
+          : `📜 퀘스트 진행 중 (${vq.progress}/${vq.target})`;
+        return `
+        <div class="stage-row ${locked?'locked':''}" ${locked?'':`onclick="Harness.safeRun(()=>VillageAgent.enter(${idx}))"`}>
+          <div class="npc-portrait" style="width:56px;height:56px;font-size:28px;">${locked?'🔒':village.npcEmoji}</div>
+          <div class="info">
+            <div><b>${STAGES[idx].name} 마을</b> ${locked?'':`<span class="npc-role-tag">${village.npcName} · ${village.npcRole}</span>`}</div>
+            <small class="tag">${questTag}</small>
+          </div>
+          ${locked ? '' : '<span class="stage-arrow">›</span>'}
+        </div>`;
+      }).join('')}
+
+      <button class="btn-gold mt14" onclick="Harness.safeRun(renderDaily)">📅 일일 임무</button>
+      <div class="btn-row mt8">
+        <button class="btn-royal" onclick="Harness.safeRun(renderCharacterSelect)">🧝 캐릭터 변경</button>
+        <button class="btn-royal" onclick="Harness.safeRun(renderStory)">📖 이야기 다시보기</button>
+      </div>
+      <button class="btn-royal-red mt8" onclick="Harness.safeRun(AuthAgent.logout)">🚪 다른 닉네임으로 시작</button>
     </div>
   `, { nav:'map' });
 }
@@ -1155,6 +1501,70 @@ function renderStageIntro(stageIdx){
       <button class="btn-main" onclick="Harness.safeRun(()=>QuizAgent.start(${stageIdx}))">📜 퀴즈 도전하기</button>
       <button class="btn-ghost mt8" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>
     </div>
+  `);
+}
+
+function renderVillage(idx){
+  const village = VILLAGES[idx];
+  const stage = STAGES[idx];
+  const q = Orchestrator.state.villageQuests[idx];
+  const chat = (villageChat && villageChat.villageIdx === idx) ? villageChat : null;
+
+  let npcBlock;
+  if(!chat){
+    npcBlock = `
+      <div class="card center">
+        <div class="npc-portrait lg">${village.npcEmoji}</div>
+        <div class="npc-name-plate">
+          <div class="nm">${village.npcName}</div>
+          <span class="npc-role-tag">${village.npcRole}</span>
+        </div>
+        <button class="btn-main mt14" onclick="Harness.safeRun(()=>VillageAgent.talk(${idx}))">💬 말 걸기</button>
+      </div>`;
+  } else if(chat.step < village.greetings.length){
+    npcBlock = `
+      <div class="card center">
+        <div class="npc-portrait lg">${village.npcEmoji}</div>
+        <div class="npc-name-plate">
+          <div class="nm">${village.npcName}</div>
+          <span class="npc-role-tag">${village.npcRole}</span>
+        </div>
+        <div class="map-quote mt14" style="text-align:left;"><p style="margin:0;">"${village.greetings[chat.step]}"</p></div>
+        <button class="btn-main" onclick="Harness.safeRun(VillageAgent.nextLine)">${chat.step < village.greetings.length-1 ? '다음 →' : '이야기 계속하기 →'}</button>
+      </div>`;
+  } else if(!q.active){
+    npcBlock = `
+      <div class="card">
+        <h2>📜 퀘스트: ${stage.name} 수호</h2>
+        <p class="tag">${village.npcName}: "이 시대 문제를 ${village.questTarget}개 맞혀서 이 마을을 도와줘!"</p>
+        <button class="btn-gold" onclick="Harness.safeRun(()=>VillageAgent.acceptQuest(${idx}))">✅ 퀘스트 수락하기 (보상 🍖 ${village.questReward})</button>
+      </div>`;
+  } else if(q.progress < q.target){
+    const pct = Math.round((q.progress / q.target) * 100);
+    npcBlock = `
+      <div class="card">
+        <h2>📜 진행 중: ${stage.name} 수호</h2>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--exp);"></div></div>
+        <p class="tag">진행 상황: ${q.progress} / ${q.target}문제 (지도에서 ${stage.name} 퀴즈를 풀면 진행돼요!)</p>
+        <button class="btn-main" onclick="Harness.safeRun(()=>StoryAgent.stageIntro(${idx}))">📖 ${stage.name} 퀴즈 풀러 가기</button>
+      </div>`;
+  } else {
+    npcBlock = `
+      <div class="card" style="border-color:var(--good);">
+        <h2>🎉 퀘스트 완료!</h2>
+        <p class="tag">${village.npcName}: "정말 고마워! 약속한 보상을 받아가게."</p>
+        <button class="btn-gold" onclick="Harness.safeRun(()=>VillageAgent.claimQuest(${idx}))">🍖 보상 받기 (+${q.reward})</button>
+      </div>`;
+  }
+
+  mount(`
+    <h1>🏘️ ${stage.name} 마을</h1>
+    ${statusBar()}
+    <div class="card">
+      <p class="tag">${stage.tag} 사람들이 모여 사는 마을이에요. 완료한 퀘스트: ${q.completedCount}회</p>
+    </div>
+    ${npcBlock}
+    <button class="btn-ghost" onclick="Harness.safeRun(renderMap)">← 지도로 돌아가기</button>
   `);
 }
 
@@ -1239,6 +1649,7 @@ function renderBattle(){
       </div>`;
   }
   const wdmg = Orchestrator.weaponDmg();
+  const skill = Orchestrator.classSkill();
 
   mount(`
     <h1>⚔️ 보호막 방어전: ${stage.ghostName}</h1>
@@ -1250,8 +1661,182 @@ function renderBattle(){
       <div class="bar-track"><div class="bar-fill" style="width:${hpPct}%;background:var(--bad);"></div></div>
       <p class="tag mt8">⏱️ 남은 시간: ${Math.max(0,battle.timeLeft)}초 ${wdmg?`<span class="weapon-tag">(무기 공격력 +${wdmg})</span>`:''}</p>
       ${!battle.over ? `<button class="btn-main mt14" onclick="Harness.safeRun(BattleAgent.hit)">👊 공격하기!</button>` : ''}
+      ${!battle.over && skill ? `
+      <button class="btn-gold mt8" ${battle.skillUsed ? 'disabled' : ''} onclick="Harness.safeRun(BattleAgent.useSkill)">${skill.emoji} ${skill.name}${battle.skillUsed ? ' (사용 완료)' : ''}</button>
+      <p class="tag mt8">${skill.desc} (전투당 1회)</p>` : ''}
     </div>
     ${resultBlock}
+  `, { light:true });
+}
+
+function renderDolmenGame(){
+  const g = dolmenGame;
+  let resultBlock = '';
+  if(g.over){
+    resultBlock = g.won ? `
+      <div class="card center" style="border-color:var(--good);">
+        <h2>🎉 고인돌 완성!</h2>
+        <p>정확한 타이밍으로 돌을 ${g.total}개 모두 쌓아 고인돌을 완성했어요! 🍖 보너스 고기 +40 획득!</p>
+        <button class="btn-gold" onclick="Harness.safeRun(DolmenAgent.giveUp)">🎯 훈련장으로 돌아가기</button>
+      </div>` : `
+      <div class="card center" style="border-color:var(--bad);">
+        <h2>😢 돌이 무너졌어요...</h2>
+        <p>타이밍을 더 연습해서 다시 도전해봐요!</p>
+        <button class="btn-main" onclick="Harness.safeRun(DolmenAgent.start)">🔁 다시 도전하기</button>
+        <button class="btn-ghost mt8" onclick="Harness.safeRun(DolmenAgent.giveUp)">← 훈련장으로 돌아가기</button>
+      </div>`;
+  }
+
+  const stonesHtml = Array.from({length:g.stoneIdx}).map((_,i)=>`<div class="dolmen-stone ${i===g.total-1?'cap':''}"></div>`).join('');
+
+  mount(`
+    <h1>🪨 고인돌 쌓기</h1>
+    ${statusBar()}
+    <div class="card center">
+      <p>청동기 시대 사람들처럼 고인돌을 쌓아봐요! 움직이는 막대가 초록색 구간에 있을 때 정확히 클릭하세요.</p>
+      <div class="dolmen-stack">${stonesHtml}</div>
+      <p class="tag">돌 ${Math.min(g.stoneIdx+1, g.total)} / ${g.total} · 실패 가능 ${g.maxMisses - g.misses}회 남음</p>
+      ${!g.over ? `
+      <div class="dolmen-track" id="dolmenTrack">
+        <div class="dolmen-zone" style="left:${g.zoneStart}%;width:${g.zoneWidth}%;"></div>
+        <div class="dolmen-marker" id="dolmenMarker" style="left:${g.pos}%;"></div>
+      </div>
+      <button class="btn-main mt14" onclick="Harness.safeRun(DolmenAgent.attempt)">🪨 쌓기!</button>
+      <button class="btn-ghost mt8" onclick="Harness.safeRun(DolmenAgent.giveUp)">그만두기</button>` : ''}
+    </div>
+    ${resultBlock}
+  `, { light:true });
+}
+
+function renderShellGame(){
+  const g = shellGame;
+
+  const gridHtml = `
+    <div class="dig-grid">
+      ${g.spots.map((spot, i)=>{
+        let cls = 'dig-tile';
+        let content = '⛏️';
+        if(spot.state === 'dug'){
+          cls += ' dug ' + (spot.correct ? 'correct' : 'wrong');
+          content = spot.artifact;
+        } else if(g.activeIdx != null){
+          cls += ' disabled';
+        }
+        if(g.activeIdx === i) cls += ' active';
+        return `<div class="${cls}" onclick="Harness.safeRun(()=>ShellDigAgent.dig(${i}))">${content}</div>`;
+      }).join('')}
+    </div>`;
+
+  let questionBlock = '';
+  if(g.activeIdx != null){
+    const { stageIdx, qIdx } = g.queue[g.activeIdx];
+    const q = STAGES[stageIdx].questions[qIdx];
+    const choicesHtml = q.choices.map((c, i)=>{
+      let cls = 'choice-btn';
+      if(g.showExplain){
+        if(i === q.answer) cls += ' choice-correct';
+        else if(i === g.selected) cls += ' choice-wrong';
+      } else if(i === g.selected){
+        cls += ' picked';
+      }
+      const disabled = g.showExplain ? 'disabled' : '';
+      return `<button class="${cls}" ${disabled} onclick="Harness.safeRun(()=>ShellDigAgent.pick(${i}))">${String.fromCharCode(9312+i)} ${c}</button>`;
+    }).join('');
+
+    questionBlock = `
+      <div class="card">
+        <h2>Q. ${q.q}</h2>
+        ${choicesHtml}
+        ${!g.showExplain
+          ? `<button class="btn-gold mt8" ${g.selected==null?'disabled':''} onclick="Harness.safeRun(ShellDigAgent.confirm)">✅ 정답 확인</button>`
+          : `<div class="card" style="border-color:${g.lastCorrect?'var(--good)':'var(--bad)'};margin-top:14px;">
+              <b>${g.lastCorrect ? `✅ ${q.choices[q.answer]} 발굴 성공! 온전한 유물이에요!` : '❌ 아쉬워요, 유물이 깨졌어요...'}</b>
+              <p>${q.explain}</p>
+              ${g.lastCorrect ? `<p class="tag" style="color:var(--gold)">🍖 고기 +15 획득!</p>` : ''}
+              <button class="btn-main mt8" onclick="Harness.safeRun(ShellDigAgent.next)">다음 칸으로 →</button>
+            </div>`}
+      </div>`;
+  }
+
+  let resultBlock = '';
+  if(g.over){
+    resultBlock = `
+      <div class="card center" style="border-color:${g.correctCount===g.total?'var(--good)':'#453188'};">
+        <h2>${g.correctCount===g.total ? '🎉 발굴 대성공!' : '⛏️ 발굴 완료!'}</h2>
+        <p>${g.total}칸 중 <b>${g.correctCount}개</b>의 유물을 온전히 발굴했어요! 🍖 총 고기 +${g.meatEarned} 획득!</p>
+        <button class="btn-main" onclick="Harness.safeRun(ShellDigAgent.start)">🔁 다시 발굴하기</button>
+        <button class="btn-ghost mt8" onclick="Harness.safeRun(ShellDigAgent.exit)">← 훈련장으로 돌아가기</button>
+      </div>`;
+  }
+
+  mount(`
+    <h1>🐚 조개무지 발굴</h1>
+    ${statusBar()}
+    <div class="card center">
+      <p>신석기 시대 사람들이 남긴 조개무지를 발굴해봐요! 칸을 파서 문제를 맞히면 유물이 온전하게 나와요.</p>
+      ${gridHtml}
+      <p class="tag mt8">발굴 ${g.spots.filter(s=>s.state==='dug').length} / ${g.total}칸 · 온전 발굴 ${g.correctCount}개</p>
+    </div>
+    ${questionBlock}
+    ${resultBlock}
+    ${!g.over ? `<button class="btn-ghost" onclick="Harness.safeRun(ShellDigAgent.exit)">← 훈련장으로 돌아가기</button>` : ''}
+  `, { light:true });
+}
+
+function renderTower(){
+  const t = tower;
+  const { stageIdx, qIdx } = t.qRef;
+  const stage = STAGES[stageIdx];
+  const q = stage.questions[qIdx];
+
+  const choicesHtml = q.choices.map((c, i)=>{
+    let cls = 'choice-btn';
+    if(t.showExplain){
+      if(i === q.answer) cls += ' choice-correct';
+      else if(i === t.selected) cls += ' choice-wrong';
+    } else if(i === t.selected){
+      cls += ' picked';
+    }
+    const disabled = t.showExplain ? 'disabled' : '';
+    return `<button class="${cls}" ${disabled} onclick="Harness.safeRun(()=>TowerAgent.pick(${i}))">${String.fromCharCode(9312+i)} ${c}</button>`;
+  }).join('');
+
+  let actionBlock = '';
+  if(!t.showExplain){
+    actionBlock = `<button class="btn-gold mt8" ${t.selected==null?'disabled':''} onclick="Harness.safeRun(TowerAgent.confirm)">✅ 정답 확인</button>`;
+  } else if(!t.over){
+    actionBlock = `
+      <div class="card" style="border-color:var(--good);margin-top:14px;">
+        <b>✅ 정답이에요! ${t.floor}층 돌파!</b>
+        <p>${q.explain}</p>
+        <p class="tag" style="color:var(--gold)">🍖 고기 +${10 + t.floor} 획득!</p>
+        ${t.newTitle ? `<p class="tag" style="color:var(--accent)">🏵️ 새 칭호 [${t.newTitle}] 획득!</p>` : ''}
+        <button class="btn-main" onclick="Harness.safeRun(TowerAgent.next)">${t.floor + 1}층으로 →</button>
+      </div>`;
+  } else {
+    actionBlock = `
+      <div class="card center" style="border-color:var(--bad);margin-top:14px;">
+        <h2>${t.timedOut ? '⏱️ 시간 초과!' : '❌ 오답! 도전 실패...'}</h2>
+        <p>${stage.name} · 정답은 <b>${q.choices[q.answer]}</b> 이었어요.</p>
+        <p>이번 도전에서 <b>${t.floor}층</b>까지 올랐어요! 🍖 총 고기 +${t.meatEarned} 획득!</p>
+        <button class="btn-main" onclick="Harness.safeRun(TowerAgent.start)">🔁 다시 도전하기</button>
+        <button class="btn-ghost mt8" onclick="Harness.safeRun(TowerAgent.exit)">← 훈련장으로 돌아가기</button>
+      </div>`;
+  }
+
+  mount(`
+    <h1>🗼 도전의 탑 · ${t.floor}층</h1>
+    ${statusBar()}
+    <div class="card">
+      <p class="tag">오답이나 시간 초과 시 도전이 바로 끝나요! 한 문제도 틀리지 말고 최대한 높이 올라가 보세요.</p>
+      <p class="tag mt8">⏱️ 남은 시간: <b>${Math.max(0,t.timeLeft)}초</b> / ${t.timeLimit}초</p>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.max(0,Math.round((t.timeLeft/t.timeLimit)*100))}%;background:${t.timeLeft<=3?'var(--bad)':'var(--gold)'};"></div></div>
+      <h2 class="mt14">Q. ${q.q}</h2>
+      ${choicesHtml}
+      ${!t.showExplain ? actionBlock : ''}
+    </div>
+    ${t.showExplain ? actionBlock : ''}
+    ${!t.over ? `<button class="btn-ghost" onclick="Harness.safeRun(TowerAgent.exit)">← 포기하고 훈련장으로</button>` : ''}
   `, { light:true });
 }
 
@@ -1481,6 +2066,19 @@ function renderAchievements(){
         <div class="ach-action">${active ? '<span class="badge-clear">장착중</span>' : (unlocked ? '<small class="tag">달성함</small>' : '<small class="tag">🔒 잠김</small>')}</div>
       </div>`;
     }).join('');
+    bodyHtml += `<div class="map-divider">🗼 도전의 탑 칭호</div>`;
+    bodyHtml += TOWER_TITLES.map(t=>{
+      const unlocked = s.towerUnlockedTitles.includes(t.floor);
+      return `
+      <div class="ach-card ${unlocked?'done':''}">
+        <div class="ach-icon">${unlocked?'🏵️':'🔒'}</div>
+        <div class="ach-info">
+          <div class="ach-name">${t.title}</div>
+          <small class="tag">${unlocked ? '도전의 탑 '+t.floor+'층 돌파' : '도전의 탑 '+t.floor+'층 필요 (최고 '+s.towerBestFloor+'층)'}</small>
+        </div>
+        <div class="ach-action">${unlocked ? '<small class="tag">달성함</small>' : '<small class="tag">🔒 잠김</small>'}</div>
+      </div>`;
+    }).join('');
   }
 
   mount(`
@@ -1506,6 +2104,19 @@ function renderTrainHome(){
       <button class="btn-main" onclick="Harness.safeRun(TrainAgent.startAll)">🔀 전체 랜덤 복습</button>
       ${wrongCount>0 ? `<button class="btn-gold mt8" onclick="Harness.safeRun(TrainAgent.startWrongNotes)">📕 오답노트 복습 (${wrongCount}문제)</button>` : ''}
       <button class="btn-ghost mt8" onclick="Harness.safeRun(renderWorksheetSelect)">📝 빈칸 시험지 만들기</button>
+    </div>
+    <div class="card">
+      <h2>🗼 도전의 탑</h2>
+      <p class="tag">층마다 제한 시간이 있고, 한 문제라도 틀리거나 시간이 끝나면 도전이 바로 끝나요! 높이 올라갈수록 고기도 더 많이 받고, 특별한 칭호도 얻을 수 있어요.</p>
+      <p class="tag">🏵️ 최고 기록: <b>${s.towerBestFloor}층</b> · 획득 칭호 ${s.towerUnlockedTitles.length}개</p>
+      <button class="btn-gold" onclick="Harness.safeRun(TowerAgent.start)">🗼 도전 시작하기</button>
+    </div>
+    <div class="card">
+      <h2>🎮 미니게임</h2>
+      <p class="tag">타이밍에 맞춰 클릭해 고인돌을 쌓아보세요! 완성하면 고기를 받아요.</p>
+      <button class="btn-gold" onclick="Harness.safeRun(DolmenAgent.start)">🪨 고인돌 쌓기 게임</button>
+      <p class="tag mt8">조개무지를 발굴하며 문제를 풀어보세요! 정답이면 유물이 온전히 나와요.</p>
+      <button class="btn-gold" onclick="Harness.safeRun(ShellDigAgent.start)">🐚 조개무지 발굴 게임</button>
     </div>
     <div class="card">
       <h2>시대별 복습</h2>
@@ -1630,6 +2241,68 @@ function renderWorksheet(stageIdx){
     <button class="btn-main no-print" onclick="window.print()">🖨️ 인쇄하기</button>
     <button class="btn-ghost mt8 no-print" onclick="Harness.safeRun(renderWorksheetSelect)">← 다른 시대 선택</button>
   `, { light:true });
+}
+
+let recordTab = 'summary';
+function renderLearningRecord(){
+  const s = Orchestrator.state;
+  const accuracy = s.totalAnswered > 0 ? Math.round((s.correctTotal / s.totalAnswered) * 100) : 0;
+  const clearedCount = s.clearedStages.filter(Boolean).length;
+
+  let bodyHtml = '';
+  if(recordTab === 'summary'){
+    bodyHtml = `
+      <div class="card">
+        <h2>📊 전체 학습 통계</h2>
+        <div class="grid2">
+          <div class="status-col"><small class="status-mini">푼 문제 수</small><div><b>${s.totalAnswered}</b>개</div></div>
+          <div class="status-col"><small class="status-mini">정답 수</small><div><b>${s.correctTotal}</b>개</div></div>
+          <div class="status-col"><small class="status-mini">정답률</small><div><b>${accuracy}%</b></div></div>
+          <div class="status-col"><small class="status-mini">한 번에 맞힌 문제</small><div><b>${s.correctFirstTry}</b>개</div></div>
+          <div class="status-col"><small class="status-mini">최고 연속 정답</small><div><b>${s.longestStreak}</b>문제</div></div>
+          <div class="status-col"><small class="status-mini">악령 처치</small><div><b>${s.bossKills}</b>회</div></div>
+          <div class="status-col"><small class="status-mini">클리어한 시대</small><div><b>${clearedCount}</b> / ${STAGES.length}</div></div>
+          <div class="status-col"><small class="status-mini">칭호</small><div><b>${Orchestrator.rank()}</b></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🗺️ 시대별 학습 현황</h2>
+        ${STAGES.map((stage,idx)=>{
+          const st = s.stageStats[idx];
+          const pct = st.attempted > 0 ? Math.round((st.correct / st.attempted) * 100) : 0;
+          return `
+          <div class="stage-row ${s.clearedStages[idx]?'current':''}">
+            <div class="stage-icon-tile">${ghostImgHtml(idx)}</div>
+            <div class="info">
+              <div><b>${stage.name}</b> <small class="tag">(${stage.tag}) ${s.clearedStages[idx]?'· ✅ 클리어':''}</small></div>
+              <small class="tag">${st.attempted > 0 ? `${st.attempted}문제 시도 · 정답률 ${pct}%` : '아직 도전하지 않았어요'}</small>
+              <div class="bar-track mt8"><div class="bar-fill" style="width:${pct}%;background:${pct>=70?'var(--good)':'var(--exp)'};"></div></div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  } else {
+    bodyHtml = `
+      <div class="card">
+        <h2>🕒 최근 학습 기록</h2>
+        ${s.activityLog.length === 0 ? '<p>아직 학습 기록이 없어요! 지도에서 문제를 풀어보세요.</p>' : s.activityLog.map(a=>`
+          <div class="note-item ${a.correct?'cleared':''}">
+            <small class="tag">${a.date} · ${a.stage} · ${a.correct?'✅ 정답':'❌ 오답'}</small>
+            <p>${a.question}</p>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+
+  mount(`
+    <h1>📊 학습기록</h1>
+    ${statusBar()}
+    <div class="shop-tabs">
+      <button class="shop-tab ${recordTab==='summary'?'active':''}" onclick="Harness.safeRun(()=>{recordTab='summary'; renderLearningRecord();})">📊 통계</button>
+      <button class="shop-tab ${recordTab==='log'?'active':''}" onclick="Harness.safeRun(()=>{recordTab='log'; renderLearningRecord();})">🕒 최근 기록</button>
+    </div>
+    ${bodyHtml}
+  `, { nav:'record' });
 }
 
 function renderWrongNotes(){
